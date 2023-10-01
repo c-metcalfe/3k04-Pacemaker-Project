@@ -8,6 +8,7 @@ from WelcomePage import WelcomePageClass
 from LoginPage import LoginPageClass
 from RegisterPage import RegisterPageClass
 from WelcomePage import WelcomePageClass
+from Dashboard import DashboardClass
 
 class GUI(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -26,7 +27,7 @@ class GUI(tk.Tk):
         self.frames = {}
         frame = self.frames 
 
-        for F in (WelcomePageClass, LoginPageClass, RegisterPageClass):
+        for F in (WelcomePageClass, LoginPageClass, RegisterPageClass, DashboardClass):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -38,3 +39,8 @@ class GUI(tk.Tk):
         frame = self.frames[content]
         # raises the current frame to the top
         frame.tkraise()
+
+    def load_dashboard(self, user):
+        dashboard = self.frames[DashboardClass]
+        dashboard.set_user(user)
+        dashboard.load_user_info()
