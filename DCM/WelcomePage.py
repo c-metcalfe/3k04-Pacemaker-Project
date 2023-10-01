@@ -16,14 +16,14 @@ class WelcomePageClass(tk.Frame):
             text="Login",
             command=lambda: controller.show_frame(LoginPageClass),
         )
-        login_button.pack(side="bottom", fill=tk.X)
+        login_button.pack(side="bottom", pady="10")
 
         register_button = tk.Button(
             self,
             text="Register new user",
             command=lambda: controller.show_frame(RegisterPageClass),
         )
-        register_button.pack(side="bottom", fill=tk.X)
+        register_button.pack(side="bottom")
 
 
 

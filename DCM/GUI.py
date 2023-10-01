@@ -13,6 +13,7 @@ class GUI(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs) # when the GUI is created, pass args to tkinter default init function
         self.wm_title("DCM Application")
+        self.wm_geometry("1000x600")
         
         container = tk.Frame(self, height=4000, width=6000)
         container.pack(side="top", fill="both", expand=True)
