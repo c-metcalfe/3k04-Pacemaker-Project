@@ -1,6 +1,7 @@
 import tkinter as tk
 import os
 from Dashboard import DashboardClass
+from User import UserClass
 
 #ROOT_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), '..')) # this is needed to create new files in the users folder with an absolute path
 
@@ -61,7 +62,9 @@ class RegisterPageClass(tk.Frame):
 
         # TODO write default parameters
         new_user_file.close()
-        self.controller.show_frame(DashboardClass) # or should we make
+        potential_user = UserClass(username)
+        self.controller.load_dashboard(potential_user)
+        self.controller.show_frame(DashboardClass)
 
 
 
