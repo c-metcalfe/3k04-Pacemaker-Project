@@ -25,7 +25,7 @@ class LoginPageClass(tk.Frame):
         password_label = tk.Label(entry_frame, text="Password:")
         username_entry = tk.Entry(entry_frame)
         password_entry = tk.Entry(entry_frame)
-        message_box = tk.Label(entry_frame, text="test")
+        message_box = tk.Label(entry_frame, text="Please enter your username and password")
         login_button = tk.Button(entry_frame, text="Login",
                                  command = lambda: self.attempt_login(username_entry.get(), 
                                                                       password_entry.get(),

@@ -27,28 +27,36 @@ class RegisterPageClass(tk.Frame):
         password_label = tk.Label(entry_frame, text="Password:")
         username_entry = tk.Entry(entry_frame)
         password_entry = tk.Entry(entry_frame)
+        message_box = tk.Label(entry_frame, text="Please enter your username and password")
         register_button = tk.Button(entry_frame, text="Register new User",
-                                 command=lambda: self.attempt_register(username_entry.get(),password_entry.get()))
+                                 command=lambda: self.attempt_register(username_entry.get(),password_entry.get(),message_box))
 
         username_label.grid(column=0,row=0)
         password_label.grid(column=0,row=1)
         username_entry.grid(column=1,row=0,columnspan=2)
         password_entry.grid(column=1,row=1,columnspan=2)
         register_button.grid(row=2,column=1)
+        message_box.grid(row=3, column=0,columnspan=3)
 
         entry_frame.pack(side="top")
 
-    def attempt_register(self, username, password):  # TODO prevent creation of duplicate users
+    def attempt_register(self, username, password, message_box):  
+        message_box.config(text="")
         print("register?")
         # if not too many users make a new user file in the Users folder, add appropriate info, set all parameters to default values
         users_count = 0
-        users_folder_path = "/Users"
+        users_folder_path = os.path.join("DCM","Users")
+
         for path in os.listdir(users_folder_path):  # count number of existing user files in the user folder
             if os.path.isfile(os.path.join(users_folder_path, path)): # check if current path is a file or folder
                 users_count += 1
+            if("{}.txt".format(username) == path): # if user already exists in users folder
+                message_box.config(text="Error: User already exists")
+                return(False) 
         
         if users_count >= CONST_Max_user_count:   
-            print("Error: Maximum of 10 Users already created")
+            
+            message_box.config(text="Error: Maximum of 10 Users already created")
             return False
         
         # make new user file to store user data
