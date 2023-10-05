@@ -29,7 +29,7 @@ class RegisterPageClass(tk.Frame):
         password_entry = tk.Entry(entry_frame)
         message_box = tk.Label(entry_frame, text="Please enter your username and password")
         register_button = tk.Button(entry_frame, text="Register new User",
-                                 command=lambda: self.attempt_register(username_entry.get(),password_entry.get(),message_box))
+                                 command=lambda: self.attempt_register(username_entry.get(),password_entry.get()))
 
         username_label.grid(column=0,row=0)
         password_label.grid(column=0,row=1)

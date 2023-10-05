@@ -12,7 +12,10 @@ class UserClass:
             self.username = f.readline().rstrip()  # remove newlines from username and pw with rstrip
             self.password = f.readline().rstrip() 
 
-            # TODO read pacemaker parameters to user attributes
+            # TODO read pacemaker parameters to user attributes, ie:
+            # self.heartRate = f.readline().rstrip()  
+
+            
 
 
         except:
