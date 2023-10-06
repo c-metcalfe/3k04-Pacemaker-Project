@@ -11,9 +11,9 @@ CONST_Max_user_count = 10
 class RegisterPageClass(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Register Page")
+        label = tk.Label(self, text="Register Page", font = ('Times New Roman',20, "bold") )
         self.controller = controller
-        label.pack(padx=10, pady=10)
+        label.pack(pady=20)
 
         back_button = tk.Button(
             self,

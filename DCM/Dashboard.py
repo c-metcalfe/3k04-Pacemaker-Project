@@ -221,7 +221,8 @@ class DashboardClass(tk.Frame):
         if not self.user: 
             return
         
-        self.nameLabel.config(text = "Current user: {}".format(self.user.getUsername()))
+        self.nameLabel.config(text = "Current user: {}".format(self.user.getUsername()), font = ('Times New Roman', 20, "bold"))
+        self.nameLabel.pack(pady = 25)
         self.rateLabel.config(text = "Pacing Rate: {}".format(self.user.pacingRate))
 
         mode = self.user.mode
