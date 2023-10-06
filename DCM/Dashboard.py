@@ -6,6 +6,7 @@ class DashboardClass(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.nameLabel = tk.Label(self, text="Dashboard")
         self.nameLabel.pack(padx=10, pady=10)
+        
 
         #TODO add labels for all necessary user info ie:
         # self.heartRateLabel = tk.Label(self, text = "fjenfeuief")...

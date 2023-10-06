@@ -29,7 +29,9 @@ class RegisterPageClass(tk.Frame):
         password_entry = tk.Entry(entry_frame)
         message_box = tk.Label(entry_frame, text="Please enter your username and password")
         register_button = tk.Button(entry_frame, text="Register new User",
-                                 command=lambda: self.attempt_register(username_entry.get(),password_entry.get()))
+                                 command=lambda: self.attempt_register(username_entry.get(),
+                                                                       password_entry.get(), 
+                                                                       message_box))
 
         username_label.grid(column=0,row=0)
         password_label.grid(column=0,row=1)
@@ -59,20 +61,35 @@ class RegisterPageClass(tk.Frame):
             message_box.config(text="Error: Maximum of 10 Users already created")
             return False
         
+        self.createUserFile(username,password)
         # make new user file to store user data
+        
+        potential_user = UserClass(username)
+        self.controller.load_dashboard(potential_user)
+        self.controller.show_frame(DashboardClass)
+
+
+    def createUserFile(self, username,password):
         filename = "{}.txt".format(username)
         file_path = os.path.join("DCM","Users",filename)
 
         new_user_file = open(file_path,"w")  
         new_user_file.write("{}\n".format(username))  
-        new_user_file.write("{}\n".format(password))  
+        new_user_file.write("{}\n".format(password))
 
-
-        # TODO write default parameters
+        # write default parameters
+        new_user_file.write("1\n") # default mode is 1 for AOO
+        new_user_file.write("0.4\n") # default ventricular pulse width (ms)
+        new_user_file.write("3.5\n") # default ventricular amplitude (V)
+        new_user_file.write("0.4\n") # default atrial pulse width (ms)
+        new_user_file.write("3.5\n") # default atrial amplitude (V)
+        new_user_file.write("120\n") # default upper rate limit (ppm)
+        new_user_file.write("60\n") # default lower rate limit (ppm)
+        new_user_file.write("250\n") # default ARP (ms)
+        new_user_file.write("320\n") # default VRP (ms)
+        new_user_file.write("250\n") # default PVARP (ms)
+        new_user_file.write("False\n") # default hysteresis rate limit (boolean)
         new_user_file.close()
-        potential_user = UserClass(username)
-        self.controller.load_dashboard(potential_user)
-        self.controller.show_frame(DashboardClass)
 
 
 
