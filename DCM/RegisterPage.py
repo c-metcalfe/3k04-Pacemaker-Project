@@ -78,11 +78,12 @@ class RegisterPageClass(tk.Frame):
         new_user_file.write("{}\n".format(password))
 
         # write default parameters
+        new_user_file.write("60\n") # default pacing rate is 60 bpm
         new_user_file.write("1\n") # default mode is 1 for AOO
         new_user_file.write("0.4\n") # default ventricular pulse width (ms)
-        new_user_file.write("3.5\n") # default ventricular amplitude (V)
+        new_user_file.write("2.5\n") # default ventricular amplitude (V)
         new_user_file.write("0.4\n") # default atrial pulse width (ms)
-        new_user_file.write("3.5\n") # default atrial amplitude (V)
+        new_user_file.write("2.5\n") # default atrial amplitude (V)
         new_user_file.write("120\n") # default upper rate limit (ppm)
         new_user_file.write("60\n") # default lower rate limit (ppm)
         new_user_file.write("250\n") # default ARP (ms)
