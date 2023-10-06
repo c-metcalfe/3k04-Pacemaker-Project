@@ -6,10 +6,14 @@ class UserClass:
         # assign parameter values from file
         # maybe encrypt file?
         try:
+            
             file_name = os.path.join("DCM","Users","{}.txt".format(user_file))
+            print("trying to open {}".format(file_name))
             f = open(file_name)
+            print("opened file")
             self.file_found = True
             self.username = f.readline().rstrip()  # remove newlines from username and pw with rstrip
+            print("read username")
             self.password = f.readline().rstrip() 
 
             # read pacemaker parameters to user attributes 
@@ -20,6 +24,7 @@ class UserClass:
             self.atrialPulseWidth = float(f.readline().rstrip())
             self.atrialAmplitude = float(f.readline().rstrip())  
             self.upperRateLimit = int(f.readline().rstrip())  
+            print("read URL")
             self.lowerRateLimit = int(f.readline().rstrip()) 
 
             self.ARP = int(f.readline().rstrip())  
@@ -108,7 +113,7 @@ class UserClass:
         if type(amp != float): return False
         allowed_vals = [2.5,3.0,3.5,4.0,4.5,5.0]
         if (amp in allowed_vals):
-            self.atrAmplitudeAmplitude = amp
+            self.atrialAmplitude = amp
             return True
         return False
 

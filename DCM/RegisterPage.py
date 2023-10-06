@@ -89,7 +89,7 @@ class RegisterPageClass(tk.Frame):
         new_user_file.write("250\n") # default ARP (ms)
         new_user_file.write("320\n") # default VRP (ms)
         new_user_file.write("250\n") # default PVARP (ms)
-        new_user_file.write("False\n") # default hysteresis rate limit (boolean)
+        new_user_file.write("0\n") # default hysteresis rate limit (0 or same as LRL)
         new_user_file.close()
 
 
