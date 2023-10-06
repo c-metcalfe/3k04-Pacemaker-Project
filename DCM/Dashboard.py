@@ -201,10 +201,15 @@ class DashboardClass(tk.Frame):
             message_box.config(text="set hysteresisRateLimit")
             self.load_user_info()
         else:
-            message_box.config(text="Error: invalid Mode")
+            message_box.config(text="Error: invalid hysteresisRateLimit")
     
 
-    def changeARP(self, AR)
+    def changeARP(self, ARP, message_box):
+        if (self.user.setARP(ARP)):
+            message_box.config(text="set ARP")
+            self.load_user_info()
+        else:
+            message_box.config(text="Error: invalid ARP")
         
         
         
