@@ -8,12 +8,9 @@ class UserClass:
         try:
             
             file_name = os.path.join("DCM","Users","{}.txt".format(user_file))
-            print("trying to open {}".format(file_name))
             f = open(file_name)
-            print("opened file")
             self.file_found = True
             self.username = f.readline().rstrip()  # remove newlines from username and pw with rstrip
-            print("read username")
             self.password = f.readline().rstrip() 
 
             # read pacemaker parameters to user attributes 
@@ -24,7 +21,6 @@ class UserClass:
             self.atrialPulseWidth = float(f.readline().rstrip())
             self.atrialAmplitude = float(f.readline().rstrip())  
             self.upperRateLimit = int(f.readline().rstrip())  
-            print("read URL")
             self.lowerRateLimit = int(f.readline().rstrip()) 
 
             self.ARP = int(f.readline().rstrip())  
@@ -70,95 +66,168 @@ class UserClass:
 
     #TODO make sure only allowed values are set 
     #  
-    def setPacingRate(self, rate: int)->bool:
-        if type(rate) != int:
+    def setPacingRate(self, rate)->bool:
+        try:
+            rateInt = int(rate)
+        except:
             return False
-        if (self.lowerRateLimit <= rate and self.upperRateLimit>=rate):
-            self.pacingRate = rate
+        if (self.lowerRateLimit <= rateInt and self.upperRateLimit>=rateInt):
+            self.pacingRate = rateInt
+            self.overwriteUserData()
             return True
         return False
 
-    def setMode(self, mode: int)->bool:
-        self.mode = mode
 
-    def setVentPulseWidth(self, width: float)->bool:
-        if type(width != float): return False
+
+    def setMode(self, mode)->bool:
+        try:
+            modeInt = int(mode)
+            if(modeInt <5 and modeInt>0):
+                self.mode = modeInt
+                self.overwriteUserData()
+                return True
+        except:
+            if(mode == "AOO"): 
+                self.mode = 1
+                self.overwriteUserData()
+                return True
+            elif(mode == "VOO"): 
+                self.mode = 2
+                self.overwriteUserData()
+                return True
+            elif(mode == "AAI"): 
+                self.mode = 3
+                self.overwriteUserData()
+                return True
+            elif(mode == "VVI"): 
+                self.mode = 4
+                self.overwriteUserData()
+                return True
+            else:
+                return False
+
+    def setVentPulseWidth(self, width)->bool:
+        try:
+            widthFloat = float(width)
+        except:
+            return False
         allowed_vals = [0.3,0.4,0.5,0.6,0.7,
                         0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,
                         1.7,1.8,1.9]
-        if (width in allowed_vals):
-            self.ventPulseWidth = width
+        if (widthFloat in allowed_vals):
+            self.ventPulseWidth = widthFloat
+            self.overwriteUserData()
             return True
         return False
 
-    def setVentAmplitude(self, amp: float)->bool:
-        if type(amp != float): return False
+    def setVentAmplitude(self, amp)->bool:
+        try:
+            ampFloat = float(amp)
+        except:
+            return False
         allowed_vals = [2.5,3.0,3.5,4.0,4.5,5.0]
-        if (amp in allowed_vals):
-            self.ventAmplitude = amp
+        if (ampFloat in allowed_vals):
+            self.ventAmplitude = ampFloat
+            self.overwriteUserData()
             return True
         return False
 
-    def setAtrialPulseWidth(self, width: float)->bool:
-        if type(width != float): return False
+    def setAtrialPulseWidth(self, width)->bool:
+        try:
+            widthFloat = float(width)
+        except:
+            return False
         allowed_vals = [0.3,0.4,0.5,0.6,0.7,
                         0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,
                         1.7,1.8,1.9]
-        if (width in allowed_vals):
-            self.atrialPulseWidth = width
+        if (widthFloat in allowed_vals):
+            self.atrialPulseWidth = widthFloat
+            self.overwriteUserData()
             return True
         return False
 
-    def setAtrialAmplitude(self, amp: float)->bool:
-        if type(amp != float): return False
+    def setAtrialAmplitude(self, amp)->bool:
+        try:
+            ampFloat = float(amp)
+        except:
+            return False
         allowed_vals = [2.5,3.0,3.5,4.0,4.5,5.0]
-        if (amp in allowed_vals):
-            self.atrialAmplitude = amp
+        if (ampFloat in allowed_vals):
+            self.atrialAmplitude = ampFloat
+            self.overwriteUserData()
             return True
         return False
 
-    def setUpperRateLimit(self, upper: int)->bool:
-        if(type(upper)!=int): return False
-        if(upper>175 or upper <50):return False
-        if(upper%5 != 0): return False
-        self.upperRateLimit= upper
+    def setUpperRateLimit(self, upper)->bool:
+        try:
+            upperInt = int(upper)
+        except:
+            return False
+        if(upperInt>175 or upperInt <50 or upperInt<self.pacingRate):return False
+        if(upperInt%5 != 0): return False
+        self.upperRateLimit= upperInt
+        self.overwriteUserData()
         return True
         
 
-    def setLowerRateLimit(self, lower: int)->bool:
-        if(type(lower)!=int): return False
-        if(lower>175 or lower <30):return False
-        if((lower<=50 or lower >=90) and lower%5 != 0): return False
-        self.lowerRateLimit= lower
+    def setLowerRateLimit(self, lower)->bool:
+        try:
+            lowerInt = int(lower)
+        except:
+            return False
+        if(lowerInt>175 or lowerInt <30):return False
+        if(lowerInt>self.pacingRate):return False
+        if(lowerInt>self.upperRateLimit):return False
+        if((lowerInt<=50 or lowerInt >=90) and lowerInt%5 != 0): return False
+        self.lowerRateLimit= lowerInt
+        self.overwriteUserData()
         return True
 
-    def setARP(self, val: int)->bool:
-        if(type(val) != int): return False
-        if(val%10 != 0): return False
-        if(val<150 or val>500): return False
-        self.ARP = val
+    def setARP(self, val)->bool:
+        try:
+            valInt = int(val)
+        except:
+            return False
+        if(valInt%10 != 0): return False
+        if(valInt<150 or valInt>500): return False
+        self.ARP = valInt
+        self.overwriteUserData()
         return True
 
-    def setVRP(self, val: int)->bool:
-        if(type(val) != int): return False
-        if(val%10 != 0): return False
-        if(val<150 or val>500): return False
-        self.VRP = val
+    def setVRP(self, val)->bool:
+        try:
+            valInt = int(val)
+        except:
+            return False
+        if(valInt%10 != 0): return False
+        if(valInt<150 or valInt>500): return False
+        self.ARP = valInt
+        self.overwriteUserData()
         return True
 
-    def setPVARP(self, val: int)->bool:
-        if(type(val) != int): return False
-        if(val%10 != 0): return False
-        if(val<150 or val>500): return False
-        self.PVARP = val
+    def setPVARP(self, val)->bool:
+        try:
+            valInt = int(val)
+        except:
+            return False
+        if(valInt%10 != 0): return False
+        if(valInt<150 or valInt>500): return False
+        self.ARP = valInt
+        self.overwriteUserData()
         return True
 
-    def setHysteresisRateLimit(self, limit: int)->bool:
-        if(type(limit)!=int): return False
-        if limit==0: 
-            self.hysteresisRateLimit = limit
+    def setHysteresisRateLimit(self, limit)->bool:
+        try:
+            limitInt = int(limit)
+        except:
+            return False
+        
+        if limitInt==0: 
+            self.hysteresisRateLimit = limitInt
+            self.overwriteUserData()
             return True
-        if(limit>175 or limit <30):return False
-        if((limit<=50 or limit >=90) and limit%5 != 0): return False
-        self.hysteresisRateLimit= limit
+        if(limitInt>175 or limitInt <30):return False
+        if((limitInt<=50 or limitInt >=90) and limitInt%5 != 0): return False
+        self.hysteresisRateLimit= limitInt
+        self.overwriteUserData()
         return True
