@@ -191,7 +191,7 @@ class DashboardClass(tk.Frame):
             message_box.config(text="Error: invalid Mode",fg="red")
         ## change ventPW BUTTON
     def changeVentPW(self, ventPW, message_box):
-        if (self.user.setPacingRate(ventPW)):
+        if (self.user.setVentPulseWidth(ventPW)):
             message_box.config(text="Set ventricular pulse width",fg="black")
             self.load_user_info()
         else:
@@ -199,7 +199,7 @@ class DashboardClass(tk.Frame):
         
         ## change ventAmp BUTTON
     def changeVentAmp(self, ventAmp, message_box):
-        if (self.user.setventAmp(ventAmp)):
+        if (self.user.setVentAmplitude(ventAmp)):
             message_box.config(text="Set ventAmp",fg="black")
             self.load_user_info()
         else:
@@ -207,7 +207,7 @@ class DashboardClass(tk.Frame):
             
         ## Change atrial pulse width button
     def changeAtrialPW(self, atrialPW, message_box):
-        if (self.user.setatrialPW(atrialPW)):
+        if (self.user.setAtrialPulseWidth(atrialPW)):
             message_box.config(text="Set Atrial Pulse Width",fg="black")
             self.load_user_info()
         else:
@@ -215,7 +215,7 @@ class DashboardClass(tk.Frame):
         
     #change atrial amp button
     def changeAtrialAmp(self, atrialAmp, message_box):
-        if (self.user.setatrialPW(atrialAmp)):
+        if (self.user.setAtrialAmplitude(atrialAmp)):
             message_box.config(text="Set Atrial Amplitude",fg="black")
             self.load_user_info()
         else:
