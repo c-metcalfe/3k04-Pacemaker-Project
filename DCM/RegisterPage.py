@@ -11,9 +11,12 @@ CONST_Max_user_count = 10
 class RegisterPageClass(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Register Page", font = ('Times New Roman',20, "bold") )
+        label = tk.Label(self, text="Register Page", font = ('Times New Roman', 20, "bold") )
         self.controller = controller
         label.pack(pady=20)
+        
+        label1=tk.Label(self, text = "Create new account", font = ('Times New Roman', 15, "normal"))
+        label1.pack(pady=2)
 
         back_button = tk.Button(
             self,
@@ -40,11 +43,11 @@ class RegisterPageClass(tk.Frame):
         entry_frame.pack(side="top")
 
     def attempt_register(self, username, password, message_box):  
-        message_box.config(text="")
+        message_box.config(text=" ")
         print("register?")
         # if not too many users make a new user file in the Users folder, add appropriate info, set all parameters to default values
         users_count = 0
-        users_folder_path = os.path.join("DCM","Users")
+        users_folder_path = "Users"
 
         for path in os.listdir(users_folder_path):  # count number of existing user files in the user folder
             if os.path.isfile(os.path.join(users_folder_path, path)): # check if current path is a file or folder
@@ -68,7 +71,7 @@ class RegisterPageClass(tk.Frame):
 
     def createUserFile(self, username,password):
         filename = "{}.txt".format(username)
-        file_path = os.path.join("DCM","Users",filename)
+        file_path = os.path.join("Users",filename)
 
         new_user_file = open(file_path,"w")  
         new_user_file.write("{}\n".format(username))  

@@ -16,16 +16,16 @@ class DashboardClass(tk.Frame):
         self.changeParamMessageBox = tk.Label(self,font=('bold'),text="Enter values then use button to change indicated parameters")
 
         #headers
-        self.labelHeader = tk.Label(self.parametersFrame, text="Parameter",font=("bold"))
-        self.entryHeader = tk.Label(self.parametersFrame, text="Entry",font=("bold"))
-        self.conditionHeader = tk.Label(self.parametersFrame, text="Conditions for Entry",font=("bold"))
+        self.labelHeader = tk.Label(self.parametersFrame, text="Parameter",font=("Comic Sans MS", 15, "bold"))
+        self.entryHeader = tk.Label(self.parametersFrame, text="Entry",font=("Comic Sans MS", 15, "bold"))
+        self.conditionHeader = tk.Label(self.parametersFrame, text="Conditions for Entry",font=("Comic Sans MS", 15, "bold"))
 
         self.labelHeader.grid(row=0,column=0)
         self.entryHeader.grid(row=0,column=1)
         self.conditionHeader.grid(row=0,column=3)
 
         #pacing rate
-        self.rateLabel = tk.Label(self.parametersFrame,text="Pacing Rate: ")
+        self.rateLabel = tk.Label(self.parametersFrame,text="Pacing Rate:")
         self.rateLabel2 = tk.Label(self.parametersFrame,text="Must be an integer between lower and upper rate limits.")
         self.rateEntry = tk.Entry(self.parametersFrame)
         self.changeRateBtn = tk.Button(self.parametersFrame, text="Change rate", 
@@ -36,7 +36,7 @@ class DashboardClass(tk.Frame):
         self.rateLabel2.grid(row=1,column=3,sticky="W")
 
         #pacing mode
-        self.modeLabel = tk.Label(self.parametersFrame,text="Mode:")
+        self.modeLabel = tk.Label(self.parametersFrame,text=" Pacing Mode:")
         self.modeLabel2 = tk.Label(self.parametersFrame,text="Must me a valid Mode name (AOO, VOO, AII, VII) or mode number (1-4)")
         self.modeEntry = tk.Entry(self.parametersFrame)
         self.changeModeBtn = tk.Button(self.parametersFrame, text="Change Mode",
@@ -47,7 +47,7 @@ class DashboardClass(tk.Frame):
         self.modeLabel2.grid(row=2,column=3,sticky="W")
 
         #ventricular pulse width
-        self.ventPWLabel = tk.Label(self.parametersFrame,text="Ventricular Pulse Width: ")
+        self.ventPWLabel = tk.Label(self.parametersFrame,text=" Ventricular Pulse Width: ")
         self.ventPWLabel2 = tk.Label(self.parametersFrame,text="Must be a number in the range [0.3, 1.9] with one decimal place")
         self.ventPWEntry = tk.Entry(self.parametersFrame)
         self.changeVentPWBtn = tk.Button(self.parametersFrame, text="Change Ventricular Pulse Width",
@@ -115,7 +115,7 @@ class DashboardClass(tk.Frame):
         self.LRLLabel2.grid(row=8,column=3,sticky="W")
         
         #hysteresisRateLimit
-        self.HRLLabel = tk.Label(self.parametersFrame,text="Hysteresis Rate Limit ")
+        self.HRLLabel = tk.Label(self.parametersFrame,text= " Hysteresis Rate Limit ")
         self.HRLLabel2 = tk.Label(self.parametersFrame,wraplength="400", justify="left",
                                   text="Must be 0 or an integer in the range [30,175] that is divisible by 5 and less than the upper rate limit")
         self.HRLEntry = tk.Entry(self.parametersFrame)
@@ -278,7 +278,7 @@ class DashboardClass(tk.Frame):
         if not self.user: 
             return
         
-        self.nameLabel.config(text = "Current user: {}".format(self.user.getUsername()), font = ('Times New Roman', 20, "bold"))
+        self.nameLabel.config(text = "Current user: {}".format(self.user.getUsername()), font = ("Arial Baltic", 30, "bold"))
         self.nameLabel.pack(pady = 25)
         self.rateLabel.config(text = "Pacing Rate: {}".format(self.user.pacingRate))
 
