@@ -6,11 +6,11 @@ class UserClass:
         # assign parameter values from file
         # maybe encrypt file?
         try:
-            file_name = os.path.join("Users","{}.txt".format(user_file))
+            file_name = os.path.join("DCM","Users","{}.txt".format(user_file))
             f = open(file_name)
             self.file_found = True
             self.username = f.readline().rstrip()  # remove newlines from username and pw with rstrip
-            print(self.username )
+            
             self.password = f.readline().rstrip() 
 
             # read pacemaker parameters to user attributes 
@@ -37,7 +37,7 @@ class UserClass:
     
     def overwriteUserData(self)->bool:
         filename = "{}.txt".format(self.username)
-        file_path = os.path.join("Users",filename)
+        file_path = os.path.join("DCM","Users",filename)
 
         try:
             user_file = open(file_path,"w")  
