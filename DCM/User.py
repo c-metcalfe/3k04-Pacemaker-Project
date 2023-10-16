@@ -41,25 +41,26 @@ class UserClass:
 
         try:
             user_file = open(file_path,"w")  
+        
+            user_file.write("{}\n".format(self.username))  
+            user_file.write("{}\n".format(self.password)) 
+            user_file.write("{}\n".format(self.pacingRate)) 
+            user_file.write("{}\n".format(self.mode))  
+            user_file.write("{}\n".format(self.ventPulseWidth))  
+            user_file.write("{}\n".format(self.ventAmplitude))  
+            user_file.write("{}\n".format(self.atrialPulseWidth))  
+            user_file.write("{}\n".format(self.atrialAmplitude))  
+            user_file.write("{}\n".format(self.upperRateLimit))  
+            user_file.write("{}\n".format(self.lowerRateLimit))  
+            user_file.write("{}\n".format(self.ARP))  
+            user_file.write("{}\n".format(self.VRP))  
+            user_file.write("{}\n".format(self.PVARP))  
+            user_file.write("{}\n".format(self.hysteresisRateLimit)) 
+
+            user_file.close()
+            return True
         except:
             return False
-        user_file.write("{}\n".format(self.username))  
-        user_file.write("{}\n".format(self.password)) 
-        user_file.write("{}\n".format(self.pacingRate)) 
-        user_file.write("{}\n".format(self.mode))  
-        user_file.write("{}\n".format(self.ventPulseWidth))  
-        user_file.write("{}\n".format(self.ventAmplitude))  
-        user_file.write("{}\n".format(self.atrialPulseWidth))  
-        user_file.write("{}\n".format(self.atrialAmplitude))  
-        user_file.write("{}\n".format(self.upperRateLimit))  
-        user_file.write("{}\n".format(self.lowerRateLimit))  
-        user_file.write("{}\n".format(self.ARP))  
-        user_file.write("{}\n".format(self.VRP))  
-        user_file.write("{}\n".format(self.PVARP))  
-        user_file.write("{}\n".format(self.hysteresisRateLimit)) 
-
-        user_file.close()
-        return True
 
         
     

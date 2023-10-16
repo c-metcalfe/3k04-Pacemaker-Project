@@ -61,36 +61,46 @@ class RegisterPageClass(tk.Frame):
             message_box.config(text="Error: Maximum of 10 Users already created")
             return False
         
-        self.createUserFile(username,password)
+
         # make new user file to store user data
+        if not self.createUserFile(username,password):
+            message_box.config(text="Error: New user file could not be created")
+            return False
+        
         
         potential_user = UserClass(username)
-        self.controller.load_dashboard(potential_user)
-        self.controller.show_frame(DashboardClass)
+        if self.controller.load_dashboard(potential_user):
+            self.controller.show_frame(DashboardClass)
+            return True
+        return False
 
 
     def createUserFile(self, username,password):
-        filename = "{}.txt".format(username)
-        file_path = os.path.join("DCM","Users",filename)
+        try:
+            filename = "{}.txt".format(username)
+            file_path = os.path.join("DCM","Users",filename)
 
-        new_user_file = open(file_path,"w")  
-        new_user_file.write("{}\n".format(username))  
-        new_user_file.write("{}\n".format(password))
+            new_user_file = open(file_path,"w")  
+            new_user_file.write("{}\n".format(username))  
+            new_user_file.write("{}\n".format(password))
 
-        # write default parameters
-        new_user_file.write("60\n") # default pacing rate is 60 bpm
-        new_user_file.write("1\n") # default mode is 1 for AOO
-        new_user_file.write("0.4\n") # default ventricular pulse width (ms)
-        new_user_file.write("2.5\n") # default ventricular amplitude (V)
-        new_user_file.write("0.4\n") # default atrial pulse width (ms)
-        new_user_file.write("2.5\n") # default atrial amplitude (V)
-        new_user_file.write("120\n") # default upper rate limit (ppm)
-        new_user_file.write("60\n") # default lower rate limit (ppm)
-        new_user_file.write("250\n") # default ARP (ms)
-        new_user_file.write("320\n") # default VRP (ms)
-        new_user_file.write("250\n") # default PVARP (ms)
-        new_user_file.write("0\n") # default hysteresis rate limit (0 or same as LRL)
-        new_user_file.close()
+            # write default parameters
+            new_user_file.write("60\n") # default pacing rate is 60 bpm
+            new_user_file.write("1\n") # default mode is 1 for AOO
+            new_user_file.write("0.4\n") # default ventricular pulse width (ms)
+            new_user_file.write("2.5\n") # default ventricular amplitude (V)
+            new_user_file.write("0.4\n") # default atrial pulse width (ms)
+            new_user_file.write("2.5\n") # default atrial amplitude (V)
+            new_user_file.write("120\n") # default upper rate limit (ppm)
+            new_user_file.write("60\n") # default lower rate limit (ppm)
+            new_user_file.write("250\n") # default ARP (ms)
+            new_user_file.write("320\n") # default VRP (ms)
+            new_user_file.write("250\n") # default PVARP (ms)
+            new_user_file.write("0\n") # default hysteresis rate limit (0 or same as LRL)
+            new_user_file.close()
+            return True
+        except:
+            return False
 
 
 
