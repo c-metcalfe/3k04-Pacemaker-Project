@@ -25,17 +25,9 @@ class DashboardClass(tk.Frame):
         entryHeader.grid(row=0,column=1)
         conditionHeader.grid(row=0,column=3)
 
-        
+
         #pacing rate
-        self.rateLabel = tk.Label(self.parametersFrame,text="Pacing Rate:")
-        rateLabel2 = tk.Label(self.parametersFrame,text="Must be an integer between lower and upper rate limits.")
-        rateEntry = tk.Entry(self.parametersFrame)
-        changeRateBtn = tk.Button(self.parametersFrame, text="Change rate", 
-                                    command=lambda: self.changePaceRate(rateEntry.get(), self.changeParamMessageBox))
-        self.rateLabel.grid(row=1,column=0)
-        rateEntry.grid(row=1, column=1)
-        changeRateBtn.grid(row=1,column=2,sticky="W")
-        rateLabel2.grid(row=1,column=3,sticky="W")
+        self.addPacingRateToTable(0)
 
         #pacing mode
         self.modeLabel = tk.Label(self.parametersFrame,text=" Pacing Mode:")
@@ -179,8 +171,27 @@ class DashboardClass(tk.Frame):
         if (self.user.setMode(mode)):
             message_box.config(text="Set Mode",fg="black")
             self.load_user_info()
+
+            #if(mode==1):
+                
+            #    self.addPacingRateToTable(0)
         else:
             message_box.config(text="Error: invalid Mode",fg="red")
+
+
+    def addPacingRateToTable(self, currentNumRows):
+        row1 =currentNumRows+1
+        self.rateLabel = tk.Label(self.parametersFrame,text="Pacing Rate:")
+        rateLabel2 = tk.Label(self.parametersFrame,text="Must be an integer between lower and upper rate limits.")
+        rateEntry = tk.Entry(self.parametersFrame)
+        changeRateBtn = tk.Button(self.parametersFrame, text="Change rate", 
+                                    command=lambda: self.changePaceRate(rateEntry.get(), self.changeParamMessageBox))
+        self.rateLabel.grid(row=row1,column=0)
+        rateEntry.grid(row=row1, column=1)
+        changeRateBtn.grid(row=row1,column=2,sticky="W")
+        rateLabel2.grid(row=row1,column=3,sticky="W")
+
+
 
         ## change pacerate Button
     def changePaceRate(self, rate, message_box):
