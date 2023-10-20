@@ -23,18 +23,18 @@ class LoginPageClass(tk.Frame):
         entry_frame = tk.Frame(self)
         username_label = tk.Label(entry_frame, text="Username:")
         password_label = tk.Label(entry_frame, text="Password:")
-        username_entry = tk.Entry(entry_frame)
-        password_entry = tk.Entry(entry_frame)
+        self.username_entry = tk.Entry(entry_frame)
+        self.password_entry = tk.Entry(entry_frame)
         message_box = tk.Label(entry_frame, text="Please enter your username and password")
         login_button = tk.Button(entry_frame, text="Login",
-                                 command = lambda: self.attempt_login(username_entry.get(), 
-                                                                      password_entry.get(),
+                                 command = lambda: self.attempt_login(self.username_entry.get(), 
+                                                                      self.password_entry.get(),
                                                                       message_box))
 
         username_label.grid(column=0,row=0)
         password_label.grid(column=0,row=1)
-        username_entry.grid(column=1,row=0,columnspan=2)
-        password_entry.grid(column=1,row=1,columnspan=2)
+        self.username_entry.grid(column=1,row=0,columnspan=2)
+        self.password_entry.grid(column=1,row=1,columnspan=2)
         login_button.grid(row=2,column=1)
         message_box.grid(row=3, column=0,columnspan=3)
 
@@ -53,6 +53,8 @@ class LoginPageClass(tk.Frame):
             return
         
         self.controller.load_dashboard(potential_user)
+        self.username_entry.delete(0,len(self.username_entry.get()))
+        self.password_entry.delete(0,len(self.password_entry.get()))
         self.controller.show_frame(DashboardClass)
 
         

@@ -1,14 +1,16 @@
 import tkinter as tk
 from User import UserClass
 
+
 class DashboardClass(tk.Frame):
     def __init__(self,parent,controller):
         tk.Frame.__init__(self, parent)
+        self.controller = controller
 
-        back_button = tk.Button(self,text="Back", command=lambda: self.backButtonCommand())
+        back_button = tk.Button(self,text="Log out", command=lambda: self.backButtonCommand())
         back_button.pack(side="top", anchor="nw")
         
-        self.nameLabel = tk.Label(self, text="Dashboard")
+        self.nameLabel = tk.Label(self, text="Current User: None")
         self.nameLabel.pack(padx=10, pady=10)
         
         self.parametersFrame = tk.Frame(self)
@@ -165,7 +167,7 @@ class DashboardClass(tk.Frame):
         
 
     def backButtonCommand(self):
-        self.lower()
+        self.controller.show_login()
         self.user = None
         
         ## change pacerate Button
