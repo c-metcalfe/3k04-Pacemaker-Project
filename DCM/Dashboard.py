@@ -1,7 +1,6 @@
 import tkinter as tk
 from User import UserClass
 
-
 class DashboardClass(tk.Frame):
     def __init__(self,parent,controller):
         tk.Frame.__init__(self, parent)
@@ -10,7 +9,7 @@ class DashboardClass(tk.Frame):
         back_button = tk.Button(self,text="Log out", command=lambda: self.backButtonCommand())
         back_button.pack(side="top", anchor="nw")
         
-        self.nameLabel = tk.Label(self, text="Current User: None")
+        self.nameLabel = tk.Label(self, text="Dashboard")
         self.nameLabel.pack(padx=10, pady=10)
         
         self.parametersFrame = tk.Frame(self)
@@ -26,6 +25,7 @@ class DashboardClass(tk.Frame):
         entryHeader.grid(row=0,column=1)
         conditionHeader.grid(row=0,column=3)
 
+        
         #pacing rate
         self.rateLabel = tk.Label(self.parametersFrame,text="Pacing Rate:")
         rateLabel2 = tk.Label(self.parametersFrame,text="Must be an integer between lower and upper rate limits.")
@@ -167,9 +167,21 @@ class DashboardClass(tk.Frame):
         
 
     def backButtonCommand(self):
-        self.controller.show_login()
         self.user = None
+        self.controller.show_login()
         
+
+           ## MODE CHANGE Button 
+            ## TODO remove whole table, add table entries for each relevant parameter
+
+
+    def changeMode(self, mode, message_box):
+        if (self.user.setMode(mode)):
+            message_box.config(text="Set Mode",fg="black")
+            self.load_user_info()
+        else:
+            message_box.config(text="Error: invalid Mode",fg="red")
+
         ## change pacerate Button
     def changePaceRate(self, rate, message_box):
         if (self.user.setPacingRate(rate)):
@@ -177,13 +189,7 @@ class DashboardClass(tk.Frame):
             self.load_user_info()
         else:
             message_box.config(text="Error: invalid pacing rate",fg="red")
-        ## MODE CHANGE Button 
-    def changeMode(self, mode, message_box):
-        if (self.user.setMode(mode)):
-            message_box.config(text="Set Mode",fg="black")
-            self.load_user_info()
-        else:
-            message_box.config(text="Error: invalid Mode",fg="red")
+ 
         ## change ventPW BUTTON
     def changeVentPW(self, ventPW, message_box):
         if (self.user.setVentPulseWidth(ventPW)):

@@ -70,6 +70,7 @@ class RegisterPageClass(tk.Frame):
         
         potential_user = UserClass(username)
         if self.controller.load_dashboard(potential_user):
+            
             self.controller.show_frame(DashboardClass)
             return True
         return False

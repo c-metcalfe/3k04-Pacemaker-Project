@@ -39,11 +39,15 @@ class GUI(tk.Tk):
         frame = self.frames[content]
         # raises the current frame to the top
         frame.tkraise()
-
-    def show_login(self): # avoids circular imports
+        
+    def show_login(self):
         self.show_frame(LoginPageClass)
+
+    def show_welcome(self):
+        self.show_frame(WelcomePageClass)
 
     def load_dashboard(self, user):
         dashboard = self.frames[DashboardClass]
         dashboard.set_user(user)
         dashboard.load_user_info()
+        return True
