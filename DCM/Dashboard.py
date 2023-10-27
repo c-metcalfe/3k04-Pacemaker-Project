@@ -60,7 +60,7 @@ class DashboardClass(tk.Frame):
     def changeMode(self, mode, message_box):
         if (self.user.setMode(mode)):
             message_box.config(text="Set Mode",fg="black")
-            self.load_user_info()
+            
 
             self.emptyTable()
             if(self.user.mode == 1): # AOO
@@ -70,6 +70,8 @@ class DashboardClass(tk.Frame):
                 self.addAtrialAmpToTable(3)
                 self.addURLToTable(4)
                 self.addLRLToTable(5)
+
+                self.load_user_info()
                 
 
             elif(self.user.mode == 2): #VOO
@@ -79,6 +81,8 @@ class DashboardClass(tk.Frame):
                 self.addVentAmpToTable(3)
                 self.addURLToTable(4)
                 self.addLRLToTable(5)
+
+                self.load_user_info()
                 
 
             elif(self.user.mode == 3): #AAI
@@ -90,6 +94,8 @@ class DashboardClass(tk.Frame):
                 self.addLRLToTable(5)
                 self.addARPToTable(6)
 
+                self.load_user_info()
+
             elif(self.user.mode == 4): #VVI
                 self.addModeToTable(0)
                 self.addPacingRateToTable(1)
@@ -99,7 +105,10 @@ class DashboardClass(tk.Frame):
                 self.addLRLToTable(5)
                 self.addVRPToTable(6)
 
+                self.load_user_info()
+
             else:  # Should never happen
+                self.load_user_info()
                 print("ERROR UINDUIFENFHUIFH")
         else:
             message_box.config(text="Error: invalid Mode",fg="red")
