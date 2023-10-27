@@ -9,6 +9,9 @@ class DashboardClass(tk.Frame):
         back_button = tk.Button(self,text="Log out", command=lambda: self.backButtonCommand())
         back_button.pack(side="top", anchor="nw")
         
+        go_to_graph_button = tk.Button(self, text="graph button", command = lambda: self.graphbuttoncommand())
+        go_to_graph_button.pack(side="bottom", anchor = "nw")
+        
         self.nameLabel = tk.Label(self, text="Dashboard")
         self.nameLabel.pack(padx=10, pady=10)
         
@@ -45,6 +48,7 @@ class DashboardClass(tk.Frame):
         self.changeParamMessageBox.pack(side="top",pady=20)
         
         
+        
         self.user=None # since their is no user, we have to wait until user logs in to set default mode
 
         
@@ -53,12 +57,16 @@ class DashboardClass(tk.Frame):
         self.user = None
         self.controller.show_login()
         
+    def graphbuttoncommand(self):
+        self.user = None
+        self.controller.show_egram()
 
            ## MODE CHANGE Button 
             ## TODO remove whole table, add table entries for each relevant parameter
 
 
 
+    
     def changeMode(self, mode, message_box):
         if (self.user.setMode(mode)):
             message_box.config(text="Set Mode",fg="black")
@@ -107,13 +115,54 @@ class DashboardClass(tk.Frame):
                 self.addLRLToTable(5)
                 self.addVRPToTable(6)
 
+                self.load_user_info()               
+                                
+            elif(self.user.mode == 5): #AOOR
+                self.addModeToTable(0)
+                self.addPacingRateToTable(1)
+                self.addAtrialPWToTable(2)
+                self.addAtrialAmpToTable(3)
+                self.addURLToTable(4)
+                self.addLRLToTable(5)
+
+                self.load_user_info()
+                
+            elif(self.user.mode == 6): #VOOR
+                self.addModeToTable(0)
+                self.addPacingRateToTable(1)
+                self.addVentPWToTable(2)
+                self.addVentAmpToTable(3)
+                self.addURLToTable(4)
+                self.addLRLToTable(5)
+
+                self.load_user_info()
+        
+            elif(self.user.mode == 7): #AAIR
+                self.addModeToTable(0)
+                self.addPacingRateToTable(1)
+                self.addAtrialPWToTable(2)
+                self.addAtrialAmpToTable(3)
+                self.addURLToTable(4)
+                self.addLRLToTable(5)
+                self.addARPToTable(6)
+
+                self.load_user_info()
+        
+            elif(self.user.mode == 8): #VVIR
+                self.addModeToTable(0)
+                self.addPacingRateToTable(1)
+                self.addVentPWToTable(2)
+                self.addVentAmpToTable(3)
+                self.addURLToTable(4)
+                self.addLRLToTable(5)
+                self.addVRPToTable(6)
+
                 self.load_user_info()
 
             else:  # Should never happen
                 self.load_user_info()
                 print("ERROR UINDUIFENFHUIFH")
-        else:
-            message_box.config(text="Error: invalid Mode",fg="red")
+                message_box.config(text="Error: invalid Mode",fg="red")
 
     
     def emptyTable(self):
@@ -136,7 +185,7 @@ class DashboardClass(tk.Frame):
     def addModeToTable(self, currentNumRows):
         row1 =currentNumRows+1
         self.modeLabel = tk.Label(self.parametersFrame,text=" Pacing Mode:")
-        modeLabel2 = tk.Label(self.parametersFrame,text="Must me a valid Mode name (AOO, VOO, AII, VII) or mode number (1-4)")
+        modeLabel2 = tk.Label(self.parametersFrame,text="Must me a valid Mode name (AOO, VOO, AII, VII, AOOR, VOOR, AAIR, VIIR) or mode number (1-8)")
         modeEntry = tk.Entry(self.parametersFrame)
         changeModeBtn = tk.Button(self.parametersFrame, text="Change Mode",
                                   command=lambda: self.changeMode(modeEntry.get(), self.changeParamMessageBox))
@@ -377,6 +426,10 @@ class DashboardClass(tk.Frame):
         elif mode == 2: modeText = "VOO"
         elif mode == 3: modeText = "AAI"
         elif mode == 4: modeText = "VVI"
+        elif mode == 5: modeText = "AOOR"
+        elif mode == 6: modeText = "VOOR"
+        elif mode == 7: modeText = "AAIR"
+        elif mode == 8: modeText = "VVIR"        
         else: modeText = "ERROR"
         self.modeLabel.config(text = "Mode: {}".format(modeText))
 

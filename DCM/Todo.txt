@@ -1,0 +1,37 @@
+Serial communication
+-Indicate when a device is connected
+-Send parameters when updated -> event?
+    -listen for confirmation
+-recieve egram data and current status 
+
+configure data frame -> 
+
+Extra parameters
+5.7.1 Maximum Sensor Rate (MSR) 
+
+
+Show Egram data
+-DATE FORMAT?
+
+-option to show atrium, ventricle, or both
+-fix time scale according to BAUD rate
+
+add four new paramaters for ne
+ four mode(AOOR, AAIR, VOOR, VVIR)
+-Activity Threshold
+
+
+-Reaction ITme
+
+Thereaction time is the time required for an activity to drive the rate from LRL to
+MSR.
+
+-Response Factor
+
+The highest response factor setting (16) shall allow the greatest incremental change in rate.
+2. The lowest response factor setting (1) shall allow a smaller change in rate.
+
+-Recovery Time
+ The
+ ecovery time shall be the time required for the rate to fall from MSR to LRL
+when activity falls below the activity threshold.

@@ -26,7 +26,13 @@ class UserClass:
             self.ARP = int(f.readline().rstrip())  
             self.VRP = int(f.readline().rstrip())  
             self.PVARP = int(f.readline().rstrip())
-            self.hysteresisRateLimit = int(f.readline().rstrip()) 
+            self.hysteresisRateLimit = int(f.readline().rstrip())
+            
+            # self.activityThreshold = (f.readline().rstrip())  # TODO STRING?
+            # self.reactionTime  = int(f.readline().rstrip())
+            # self.responseFactor  = int(f.readline().rstrip())
+            # self.recoveryTime = int(f.readline().rstrip())
+
 
         except:
             self.file_found = False
@@ -56,6 +62,10 @@ class UserClass:
             user_file.write("{}\n".format(self.VRP))  
             user_file.write("{}\n".format(self.PVARP))  
             user_file.write("{}\n".format(self.hysteresisRateLimit)) 
+            # user_file.write("{}\n".format(self.activityThreshold))  
+            # user_file.write("{}\n".format(self.reactionTime))  
+            # user_file.write("{}\n".format(self.responseFactor))  
+            # user_file.write("{}\n".format(self.recoveryTime)) 
 
             user_file.close()
             return True
@@ -65,7 +75,7 @@ class UserClass:
         
     
 
-    #TODO make sure only allowed values are set 
+    #TODO add set functions for 4 new params
     #  
     def setPacingRate(self, rate)->bool:
         try:
@@ -77,13 +87,11 @@ class UserClass:
             self.overwriteUserData()
             return True
         return False
-
-
-
+  
     def setMode(self, mode)->bool:
         try:
             modeInt = int(mode)
-            if(modeInt <5 and modeInt>0):
+            if(modeInt <9 and modeInt>0):
                 self.mode = modeInt
                 self.overwriteUserData()
                 return True
@@ -104,6 +112,22 @@ class UserClass:
                 self.mode = 4
                 self.overwriteUserData()
                 return True
+            elif(mode == "AOOR"): 
+                self.mode = 5
+                self.overwriteUserData()
+                return True
+            elif(mode == "VOOR"): 
+                self.mode = 6
+                self.overwriteUserData()
+                return True
+            elif(mode == "AAIR"): 
+                self.mode = 7
+                self.overwriteUserData()
+                return True
+            elif(mode == "VVIR"): 
+                self.mode = 8
+                self.overwriteUserData()
+                return True                                   
             else:
                 return False
 

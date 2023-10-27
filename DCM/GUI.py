@@ -9,6 +9,7 @@ from LoginPage import LoginPageClass
 from RegisterPage import RegisterPageClass
 from WelcomePage import WelcomePageClass
 from Dashboard import DashboardClass
+from egramPage import egramPage
 
 class GUI(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -27,7 +28,7 @@ class GUI(tk.Tk):
         self.frames = {}
         frame = self.frames 
 
-        for F in (WelcomePageClass, LoginPageClass, RegisterPageClass, DashboardClass):
+        for F in (WelcomePageClass, LoginPageClass, RegisterPageClass, DashboardClass, egramPage):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -42,6 +43,9 @@ class GUI(tk.Tk):
         
     def show_login(self):
         self.show_frame(LoginPageClass)
+        
+    def show_egram(self):
+        self.show_frame(egramPage)
 
     def show_welcome(self):
         self.show_frame(WelcomePageClass)
@@ -50,12 +54,12 @@ class GUI(tk.Tk):
         dashboard = self.frames[DashboardClass]
         dashboard.set_user(user)
         dashboard.load_user_info()
+        dashboard.changeMode(dashboard.user.mode, dashboard.changeParamMessageBox)
         
         return True
     
     def chooseMode(self):
         dashboard = self.frames[DashboardClass]
         dashboard.emptyTable()
-        
         dashboard.addModeToTable(0)
         dashboard.modeLabel.config(text="Choose a Pacing Mode")
