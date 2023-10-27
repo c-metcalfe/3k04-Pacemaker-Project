@@ -24,137 +24,28 @@ class DashboardClass(tk.Frame):
         labelHeader.grid(row=0,column=0)
         entryHeader.grid(row=0,column=1)
         conditionHeader.grid(row=0,column=3)
-
-
-        #pacing rate
+       
+        # Creating instances of all table entries. Not all will be shown but all must be created so
+        # their text can be modified.
         self.addPacingRateToTable(0)
-
-        #pacing mode
-        self.modeLabel = tk.Label(self.parametersFrame,text=" Pacing Mode:")
-        modeLabel2 = tk.Label(self.parametersFrame,text="Must me a valid Mode name (AOO, VOO, AII, VII) or mode number (1-4)")
-        modeEntry = tk.Entry(self.parametersFrame)
-        changeModeBtn = tk.Button(self.parametersFrame, text="Change Mode",
-                                    command=lambda: self.changeMode(modeEntry.get(), self.changeParamMessageBox))
-        self.modeLabel.grid(row=2,column=0)
-        modeEntry.grid(row=2, column=1)
-        changeModeBtn.grid(row=2,column=2,sticky="W")
-        modeLabel2.grid(row=2,column=3,sticky="W")
-
-        #ventricular pulse width
-        self.ventPWLabel = tk.Label(self.parametersFrame,text=" Ventricular Pulse Width: ")
-        ventPWLabel2 = tk.Label(self.parametersFrame,text="Must be a number in the range [0.3, 1.9] with one decimal place")
-        ventPWEntry = tk.Entry(self.parametersFrame)
-        changeVentPWBtn = tk.Button(self.parametersFrame, text="Change Ventricular Pulse Width",
-                                    command=lambda: self.changeVentPW(ventPWEntry.get(), self.changeParamMessageBox))
-        self.ventPWLabel.grid(row=3,column=0)
-        ventPWEntry.grid(row=3, column=1)
-        changeVentPWBtn.grid(row=3,column=2,sticky="W")
-        ventPWLabel2.grid(row=3,column=3,sticky="W")
-        
-        # ventricular amplitude
-        self.ventAmpLabel = tk.Label(self.parametersFrame,text="Ventricular amplitude: ")
-        ventAmpLabel2 = tk.Label(self.parametersFrame,text="Options are: [2.5,3.0,3.5,4.0,4.5,5.0]")
-        ventAmpEntry = tk.Entry(self.parametersFrame)
-        changeVentAmpBtn = tk.Button(self.parametersFrame, text="Change VA",
-                                    command=lambda: self.changeVentAmp(ventAmpEntry.get(), self.changeParamMessageBox))
-        self.ventAmpLabel.grid(row=4,column=0)
-        ventAmpEntry.grid(row=4, column=1)
-        changeVentAmpBtn.grid(row=4,column=2,sticky="W")
-        ventAmpLabel2.grid(row=4,column=3,sticky="W")
-
-        #Atrial pulse width
-        self.atrialPWLabel = tk.Label(self.parametersFrame,text=" Atrial Pulse Width: ")
-        atrialPWLabel2 = tk.Label(self.parametersFrame,text="Must be a number in the range [0.3, 1.9] with one decimal place")
-        atrialPWEntry = tk.Entry(self.parametersFrame)
-        changeAtrialPWBtn = tk.Button(self.parametersFrame, text="Change Atrial Pulse Width",
-                                    command=lambda: self.changeAtrialPW(atrialPWEntry.get(), self.changeParamMessageBox))
-        self.atrialPWLabel.grid(row=5,column=0)
-        atrialPWEntry.grid(row=5, column=1)
-        changeAtrialPWBtn.grid(row=5,column=2,sticky="W")
-        atrialPWLabel2.grid(row=5,column=3,sticky="W")
-
-        #Atrial amplitude
-        self.atrialAmpLabel = tk.Label(self.parametersFrame,text=" Atrial Amplitude: ")
-        atrialAmpLabel2 = tk.Label(self.parametersFrame,text="Options are: [2.5,3.0,3.5,4.0,4.5,5.0]")
-        atrialAmpEntry = tk.Entry(self.parametersFrame)
-        changeAtrialAmpBtn = tk.Button(self.parametersFrame, text="Change Atrial Amplitude",
-                                    command=lambda: self.changeAtrialAmp(atrialAmpEntry.get(), self.changeParamMessageBox))
-        self.atrialAmpLabel.grid(row=6,column=0)
-        atrialAmpEntry.grid(row=6, column=1)
-        changeAtrialAmpBtn.grid(row=6,column=2,sticky="W")
-        atrialAmpLabel2.grid(row=6,column=3,sticky="W")
-        
-        #upperRateLimit
-        self.URLLabel = tk.Label(self.parametersFrame,text=" Upper Rate limit: ")
-        URLLabel2 = tk.Label(self.parametersFrame,wraplength="400", justify="left",
-                             text="Must be an interger in the range [50,175] that is divisible by 5 and greater than the current pacing rate")
-        URLEntry = tk.Entry(self.parametersFrame)
-        changeURLBtn = tk.Button(self.parametersFrame, text="Change the URL(upper rate width)",
-                                    command=lambda: self.changeURL(URLEntry.get(), self.changeParamMessageBox))
-        self.URLLabel.grid(row=7,column=0)
-        URLEntry.grid(row=7, column=1)
-        changeURLBtn.grid(row=7,column=2,sticky="W")
-        URLLabel2.grid(row=7,column=3,sticky="W")
-
-        #lower rate limit
-        self.LRLLabel = tk.Label(self.parametersFrame,text="Lower Rate limit: ")
-        LRLLabel2 = tk.Label(self.parametersFrame,wraplength="400", justify="left",
-                             text="Must be an integer in the range [30,175] that is divisible by 5, less than the upper rate limit, and less than the current pacing rate")
-        LRLEntry = tk.Entry(self.parametersFrame)
-        changeLRLBtn = tk.Button(self.parametersFrame, text="Change LRL(Lower rate limit)",
-                                    command=lambda: self.changeLRL(LRLEntry.get(), self.changeParamMessageBox))
-        self.LRLLabel.grid(row=8,column=0)
-        LRLEntry.grid(row=8, column=1)
-        changeLRLBtn.grid(row=8,column=2,sticky="W")
-        LRLLabel2.grid(row=8,column=3,sticky="W")
-        
-        #hysteresisRateLimit
-        self.HRLLabel = tk.Label(self.parametersFrame,text= " Hysteresis Rate Limit ")
-        HRLLabel2 = tk.Label(self.parametersFrame,wraplength="400", justify="left",
-                             text="Must be 0 or an integer in the range [30,175] that is divisible by 5 and less than the upper rate limit")
-        HRLEntry = tk.Entry(self.parametersFrame)
-        changeHRLBtn = tk.Button(self.parametersFrame, text="Change Hysteresis Rate Limit",
-                                    command=lambda: self.changeHRL(HRLEntry.get(), self.changeParamMessageBox))
-        self.HRLLabel.grid(row=9,column=0)
-        HRLEntry.grid(row=9, column=1)
-        changeHRLBtn.grid(row=9,column=2,sticky="W")
-        HRLLabel2.grid(row=9,column=3,sticky="W")
-            #ARP
-        self.ARPLabel = tk.Label(self.parametersFrame,text="ARP")
-        ARPLabel2 = tk.Label(self.parametersFrame,wraplength="400",text="Must be an integer in the range [150, 500] that is divisible by 10")
-        ARPEntry = tk.Entry(self.parametersFrame)
-        changeARPBtn = tk.Button(self.parametersFrame, text="Change ARP",
-                               command=lambda: self.changeARP(ARPEntry.get(), self.changeParamMessageBox))
-        self.ARPLabel.grid(row=10,column=0)
-        ARPEntry.grid(row=10, column=1)
-        changeARPBtn.grid(row=10,column=2,sticky="W")
-        ARPLabel2.grid(row=10,column=3,sticky="W")
-            #VRP
-        self.VRPLabel = tk.Label(self.parametersFrame,text="VRP")
-        VRPLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be an integer in the range [150, 500] that is divisible by 10")
-        VRPEntry = tk.Entry(self.parametersFrame)
-        changeVRPBtn = tk.Button(self.parametersFrame, text="Change VRP",
-                               command=lambda: self.changeVRP(VRPEntry.get(), self.changeParamMessageBox))
-        self.VRPLabel.grid(row=11,column=0)
-        VRPEntry.grid(row=11, column=1)
-        changeVRPBtn.grid(row=11,column=2,sticky="W")
-        VRPLabel2.grid(row=11,column=3,sticky="W")
-            #PVARP
-        self.PVARPLabel = tk.Label(self.parametersFrame,text="PVARP:")
-        PVARPLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be an integer in the range [150, 500] that is divisible by 10")
-        PVARPEntry = tk.Entry(self.parametersFrame)
-        changePVARPBtn = tk.Button(self.parametersFrame, text="Change PVARP",
-                               command=lambda: self.changePVARP(PVARPEntry.get(), self.changeParamMessageBox))
-        self.PVARPLabel.grid(row=12,column=0)
-        PVARPEntry.grid(row=12, column=1)
-        changePVARPBtn.grid(row=12,column=2,sticky="W")
-        PVARPLabel2.grid(row=12,column=3,sticky="W")
+        self.addModeToTable(1)
+        self.addVentPWToTable(2)
+        self.addVentAmpToTable(3)
+        self.addAtrialPWToTable(4)
+        self.addAtrialAmpToTable(5)
+        self.addURLToTable(6)
+        self.addLRLToTable(7)
+        self.addHRLToTable(8)
+        self.addARPToTable(9)
+        self.addVRPToTable(10)
+        self.addPVARPToTable(11)
             
         
         self.parametersFrame.pack(side="top")
         self.changeParamMessageBox.pack(side="top",pady=20)
         
-        self.user=None
+        
+        self.user=None # since their is no user, we have to wait until user logs in to set default mode
 
         
 
@@ -167,16 +58,67 @@ class DashboardClass(tk.Frame):
             ## TODO remove whole table, add table entries for each relevant parameter
 
 
+
     def changeMode(self, mode, message_box):
         if (self.user.setMode(mode)):
             message_box.config(text="Set Mode",fg="black")
-            self.load_user_info()
+            
 
-            #if(mode==1):
+            self.emptyTable()
+            if(self.user.mode == 1): # AOO
+                self.addModeToTable(0)
+                self.addPacingRateToTable(1)
+                self.addAtrialPWToTable(2)
+                self.addAtrialAmpToTable(3)
+                self.addURLToTable(4)
+                self.addLRLToTable(5)
+
+                self.load_user_info()
                 
-            #    self.addPacingRateToTable(0)
+
+            elif(self.user.mode == 2): #VOO
+                self.addModeToTable(0)
+                self.addPacingRateToTable(1)
+                self.addVentPWToTable(2)
+                self.addVentAmpToTable(3)
+                self.addURLToTable(4)
+                self.addLRLToTable(5)
+
+                self.load_user_info()
+                
+
+            elif(self.user.mode == 3): #AAI
+                self.addModeToTable(0)
+                self.addPacingRateToTable(1)
+                self.addAtrialPWToTable(2)
+                self.addAtrialAmpToTable(3)
+                self.addURLToTable(4)
+                self.addLRLToTable(5)
+                self.addARPToTable(6)
+
+                self.load_user_info()
+
+            elif(self.user.mode == 4): #VVI
+                self.addModeToTable(0)
+                self.addPacingRateToTable(1)
+                self.addVentPWToTable(2)
+                self.addVentAmpToTable(3)
+                self.addURLToTable(4)
+                self.addLRLToTable(5)
+                self.addVRPToTable(6)
+
+                self.load_user_info()
+
+            else:  # Should never happen
+                self.load_user_info()
+                print("ERROR UINDUIFENFHUIFH")
         else:
             message_box.config(text="Error: invalid Mode",fg="red")
+
+    
+    def emptyTable(self):
+        for widget in self.parametersFrame.winfo_children():
+            widget.grid_remove()
 
 
     def addPacingRateToTable(self, currentNumRows):
@@ -190,6 +132,142 @@ class DashboardClass(tk.Frame):
         rateEntry.grid(row=row1, column=1)
         changeRateBtn.grid(row=row1,column=2,sticky="W")
         rateLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addModeToTable(self, currentNumRows):
+        row1 =currentNumRows+1
+        self.modeLabel = tk.Label(self.parametersFrame,text=" Pacing Mode:")
+        modeLabel2 = tk.Label(self.parametersFrame,text="Must me a valid Mode name (AOO, VOO, AII, VII) or mode number (1-4)")
+        modeEntry = tk.Entry(self.parametersFrame)
+        changeModeBtn = tk.Button(self.parametersFrame, text="Change Mode",
+                                  command=lambda: self.changeMode(modeEntry.get(), self.changeParamMessageBox))
+        self.modeLabel.grid(row=row1,column=0)
+        modeEntry.grid(row=row1, column=1)
+        changeModeBtn.grid(row=row1,column=2,sticky="W")
+        modeLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addVentPWToTable(self, currentNumRows):
+        row1=currentNumRows+1
+        self.ventPWLabel = tk.Label(self.parametersFrame,text=" Ventricular Pulse Width: ")
+        ventPWLabel2 = tk.Label(self.parametersFrame,text="Must be a number in the range [0.3, 1.9] with one decimal place")
+        ventPWEntry = tk.Entry(self.parametersFrame)
+        changeVentPWBtn = tk.Button(self.parametersFrame, text="Change Ventricular Pulse Width",
+                                    command=lambda: self.changeVentPW(ventPWEntry.get(), self.changeParamMessageBox))
+        self.ventPWLabel.grid(row=row1,column=0)
+        ventPWEntry.grid(row=row1, column=1)
+        changeVentPWBtn.grid(row=row1,column=2,sticky="W")
+        ventPWLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addVentAmpToTable(self, currentNumRows):
+        row1=currentNumRows+1
+        self.ventAmpLabel = tk.Label(self.parametersFrame,text="Ventricular amplitude: ")
+        ventAmpLabel2 = tk.Label(self.parametersFrame,text="Options are: [2.5,3.0,3.5,4.0,4.5,5.0]")
+        ventAmpEntry = tk.Entry(self.parametersFrame)
+        changeVentAmpBtn = tk.Button(self.parametersFrame, text="Change VA",
+                                    command=lambda: self.changeVentAmp(ventAmpEntry.get(), self.changeParamMessageBox))
+        self.ventAmpLabel.grid(row=row1,column=0)
+        ventAmpEntry.grid(row=row1, column=1)
+        changeVentAmpBtn.grid(row=row1,column=2,sticky="W")
+        ventAmpLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addAtrialPWToTable(self, currentNumRows):
+        row1=currentNumRows+1
+        
+        self.atrialPWLabel = tk.Label(self.parametersFrame,text=" Atrial Pulse Width: ")
+        atrialPWLabel2 = tk.Label(self.parametersFrame,text="Must be a number in the range [0.3, 1.9] with one decimal place")
+        atrialPWEntry = tk.Entry(self.parametersFrame)
+        changeAtrialPWBtn = tk.Button(self.parametersFrame, text="Change Atrial Pulse Width",
+                                    command=lambda: self.changeAtrialPW(atrialPWEntry.get(), self.changeParamMessageBox))
+        self.atrialPWLabel.grid(row=row1,column=0)
+        atrialPWEntry.grid(row=row1, column=1)
+        changeAtrialPWBtn.grid(row=row1,column=2,sticky="W")
+        atrialPWLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addAtrialAmpToTable(self, currentNumRows):
+        row1=currentNumRows+1
+        self.atrialAmpLabel = tk.Label(self.parametersFrame,text=" Atrial Amplitude: ")
+        atrialAmpLabel2 = tk.Label(self.parametersFrame,text="Options are: [2.5,3.0,3.5,4.0,4.5,5.0]")
+        atrialAmpEntry = tk.Entry(self.parametersFrame)
+        changeAtrialAmpBtn = tk.Button(self.parametersFrame, text="Change Atrial Amplitude",
+                                    command=lambda: self.changeAtrialAmp(atrialAmpEntry.get(), self.changeParamMessageBox))
+        self.atrialAmpLabel.grid(row=row1,column=0)
+        atrialAmpEntry.grid(row=row1, column=1)
+        changeAtrialAmpBtn.grid(row=row1,column=2,sticky="W")
+        atrialAmpLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addURLToTable(self, currentNumRows):
+        row1=currentNumRows+1
+        self.URLLabel = tk.Label(self.parametersFrame,text=" Upper Rate limit: ")
+        URLLabel2 = tk.Label(self.parametersFrame,wraplength="400", justify="left",
+                             text="Must be an interger in the range [50,175] that is divisible by 5 and greater than the current pacing rate")
+        URLEntry = tk.Entry(self.parametersFrame)
+        changeURLBtn = tk.Button(self.parametersFrame, text="Change the URL(upper rate width)",
+                                    command=lambda: self.changeURL(URLEntry.get(), self.changeParamMessageBox))
+        self.URLLabel.grid(row=row1,column=0)
+        URLEntry.grid(row=row1, column=1)
+        changeURLBtn.grid(row=row1,column=2,sticky="W")
+        URLLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addLRLToTable(self, currentNumRows):
+        row1=currentNumRows+1
+        self.LRLLabel = tk.Label(self.parametersFrame,text="Lower Rate limit: ")
+        LRLLabel2 = tk.Label(self.parametersFrame,wraplength="400", justify="left",
+                             text="Must be an integer in the range [30,175] that is divisible by 5, less than the upper rate limit, and less than the current pacing rate")
+        LRLEntry = tk.Entry(self.parametersFrame)
+        changeLRLBtn = tk.Button(self.parametersFrame, text="Change LRL(Lower rate limit)",
+                                    command=lambda: self.changeLRL(LRLEntry.get(), self.changeParamMessageBox))
+        self.LRLLabel.grid(row=row1,column=0)
+        LRLEntry.grid(row=row1, column=1)
+        changeLRLBtn.grid(row=row1,column=2,sticky="W")
+        LRLLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addHRLToTable(self, currentNumRows):
+        row1=currentNumRows+1
+        self.HRLLabel = tk.Label(self.parametersFrame,text= " Hysteresis Rate Limit ")
+        HRLLabel2 = tk.Label(self.parametersFrame,wraplength="400", justify="left",
+                             text="Must be 0 or an integer in the range [30,175] that is divisible by 5 and less than the upper rate limit")
+        HRLEntry = tk.Entry(self.parametersFrame)
+        changeHRLBtn = tk.Button(self.parametersFrame, text="Change Hysteresis Rate Limit",
+                                    command=lambda: self.changeHRL(HRLEntry.get(), self.changeParamMessageBox))
+        self.HRLLabel.grid(row=row1,column=0)
+        HRLEntry.grid(row=row1, column=1)
+        changeHRLBtn.grid(row=row1,column=2,sticky="W")
+        HRLLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addARPToTable(self, currentNumRows):
+        row1=currentNumRows+1  
+        self.ARPLabel = tk.Label(self.parametersFrame,text="ARP")
+        ARPLabel2 = tk.Label(self.parametersFrame,wraplength="400",text="Must be an integer in the range [150, 500] that is divisible by 10")
+        ARPEntry = tk.Entry(self.parametersFrame)
+        changeARPBtn = tk.Button(self.parametersFrame, text="Change ARP",
+                               command=lambda: self.changeARP(ARPEntry.get(), self.changeParamMessageBox))
+        self.ARPLabel.grid(row=row1,column=0)
+        ARPEntry.grid(row=row1, column=1)
+        changeARPBtn.grid(row=row1,column=2,sticky="W")
+        ARPLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addVRPToTable(self, currentNumRows):
+        row1=currentNumRows+1  
+        self.VRPLabel = tk.Label(self.parametersFrame,text="VRP")
+        VRPLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be an integer in the range [150, 500] that is divisible by 10")
+        VRPEntry = tk.Entry(self.parametersFrame)
+        changeVRPBtn = tk.Button(self.parametersFrame, text="Change VRP",
+                               command=lambda: self.changeVRP(VRPEntry.get(), self.changeParamMessageBox))
+        self.VRPLabel.grid(row=row1,column=0)
+        VRPEntry.grid(row=row1, column=1)
+        changeVRPBtn.grid(row=row1,column=2,sticky="W")
+        VRPLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addPVARPToTable(self, currentNumRows):
+        row1=currentNumRows+1  
+        self.PVARPLabel = tk.Label(self.parametersFrame,text="PVARP:")
+        PVARPLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be an integer in the range [150, 500] that is divisible by 10")
+        PVARPEntry = tk.Entry(self.parametersFrame)
+        changePVARPBtn = tk.Button(self.parametersFrame, text="Change PVARP",
+                               command=lambda: self.changePVARP(PVARPEntry.get(), self.changeParamMessageBox))
+        self.PVARPLabel.grid(row=row1,column=0)
+        PVARPEntry.grid(row=row1, column=1)
+        changePVARPBtn.grid(row=row1,column=2,sticky="W")
+        PVARPLabel2.grid(row=row1,column=3,sticky="W")
 
 
 

@@ -49,6 +49,10 @@ class RegisterPageClass(tk.Frame):
         users_count = 0
         users_folder_path = os.path.join("DCM","Users")
 
+        if (" " in username or username == ""):
+            message_box.config(text="Error: Invalid Username")
+            return(False) 
+
         for path in os.listdir(users_folder_path):  # count number of existing user files in the user folder
             if os.path.isfile(os.path.join(users_folder_path, path)): # check if current path is a file or folder
                 users_count += 1
@@ -72,6 +76,7 @@ class RegisterPageClass(tk.Frame):
         if self.controller.load_dashboard(potential_user):
             
             self.controller.show_frame(DashboardClass)
+            self.controller.chooseMode()
             return True
         return False
 
