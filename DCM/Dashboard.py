@@ -44,7 +44,8 @@ class DashboardClass(tk.Frame):
         self.parametersFrame.pack(side="top")
         self.changeParamMessageBox.pack(side="top",pady=20)
         
-        self.user=None
+        
+        self.user=None # since their is no user, we have to wait until user logs in to set default mode
 
         
 
@@ -55,6 +56,7 @@ class DashboardClass(tk.Frame):
 
            ## MODE CHANGE Button 
             ## TODO remove whole table, add table entries for each relevant parameter
+
 
 
     def changeMode(self, mode, message_box):

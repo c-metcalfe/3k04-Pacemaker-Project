@@ -50,4 +50,12 @@ class GUI(tk.Tk):
         dashboard = self.frames[DashboardClass]
         dashboard.set_user(user)
         dashboard.load_user_info()
+        
         return True
+    
+    def chooseMode(self):
+        dashboard = self.frames[DashboardClass]
+        dashboard.emptyTable()
+        
+        dashboard.addModeToTable(0)
+        dashboard.modeLabel.config(text="Choose a Pacing Mode")
