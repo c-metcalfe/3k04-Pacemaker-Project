@@ -13,6 +13,8 @@ class egramPage(tk.Frame):
         self.controller = controller
 
         self.keepPlotting=False
+        backBtn = tk.Button(self, text="Back", command =lambda: self.backButtonFunc())
+        backBtn.pack(side="top", anchor="nw")
         startBtn = tk.Button(self, text="Start plotting", command =lambda: self.startButtonFunc())
         startBtn.pack(side="top")
 
@@ -54,12 +56,16 @@ class egramPage(tk.Frame):
         self.keepPlotting =True
         self.updatePlots()
 
+    def backBtnFunc(self):
+        self.stopPlotting()
+        self.controller.show_dashboard()
+
     def updatePlots(self):
         
         a = random.random() # TODO implement serial here
         
-        self.atrData.append(a)
-        self.ventData.append(a)
+        self.atrData.insert(0,a)
+        self.ventData.insert(0,a)
 
         # self.ax.cla()
         # self.vx.cla()

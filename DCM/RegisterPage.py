@@ -54,9 +54,8 @@ class RegisterPageClass(tk.Frame):
             return(False) 
 
         for path in os.listdir(users_folder_path):  # count number of existing user files in the user folder
-            if os.path.isfile(os.path.join(users_folder_path, path)): # check if current path is a file or folder
-                users_count += 1
-            if("{}.txt".format(username) == path): # if user already exists in users folder
+            users_count += 1
+            if("{}".format(username) == path): # if user already exists in users folder
                 message_box.config(text="Error: User already exists")
                 return(False) 
         
@@ -64,13 +63,14 @@ class RegisterPageClass(tk.Frame):
             
             message_box.config(text="Error: Maximum of 10 Users already created")
             return False
-        
+        if not self.createUserFolder(username):
+            message_box.config(text="Error: New user folder could not be created")
+            return False
 
         # make new user file to store user data
         if not self.createUserFile(username,password):
             message_box.config(text="Error: New user file could not be created")
             return False
-        
         
         potential_user = UserClass(username)
         if self.controller.load_dashboard(potential_user):
@@ -80,11 +80,19 @@ class RegisterPageClass(tk.Frame):
             return True
         return False
 
+    def createUserFolder(self, username):
+        user_folder_path = os.path.join("DCM","Users","{}".format(username))
+        try:
+            os.mkdir(user_folder_path)
+            return True
+        except:
+            return False
+
 
     def createUserFile(self, username,password):
         try:
             filename = "{}.txt".format(username)
-            file_path = os.path.join("DCM","Users",filename)
+            file_path = os.path.join("DCM","Users", username, filename)
 
             new_user_file = open(file_path,"w")  
             new_user_file.write("{}\n".format(username))  

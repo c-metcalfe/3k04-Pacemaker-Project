@@ -43,6 +43,9 @@ class GUI(tk.Tk):
         
     def show_login(self):
         self.show_frame(LoginPageClass)
+
+    def show_dashboard(self):
+        self.show_frame(DashboardClass)
         
     def show_egram(self):
         self.show_frame(egramPage)
