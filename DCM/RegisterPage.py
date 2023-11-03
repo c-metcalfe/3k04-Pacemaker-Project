@@ -100,17 +100,25 @@ class RegisterPageClass(tk.Frame):
 
             # write default parameters
             new_user_file.write("60\n") # default pacing rate is 60 bpm
-            new_user_file.write("1\n") # default mode is 1 for AOO
-            new_user_file.write("0.4\n") # default ventricular pulse width (ms)
-            new_user_file.write("2.5\n") # default ventricular amplitude (V)
-            new_user_file.write("0.4\n") # default atrial pulse width (ms)
-            new_user_file.write("2.5\n") # default atrial amplitude (V)
+            new_user_file.write("255\n") # default mode is 255 for no mode
+            new_user_file.write("1.0\n") # default ventricular pulse width (ms)
+            new_user_file.write("5.0\n") # default ventricular amplitude (V)
+            new_user_file.write("1.0\n") # default atrial pulse width (ms)
+            new_user_file.write("5.0\n") # default atrial amplitude (V)
             new_user_file.write("120\n") # default upper rate limit (ppm)
             new_user_file.write("60\n") # default lower rate limit (ppm)
             new_user_file.write("250\n") # default ARP (ms)
             new_user_file.write("320\n") # default VRP (ms)
             new_user_file.write("250\n") # default PVARP (ms)
             new_user_file.write("0\n") # default hysteresis rate limit (0 or same as LRL)
+
+            new_user_file.write("3\n") # default activity threshold
+            new_user_file.write("30\n") # default reactionTime
+            new_user_file.write("8\n") # default responseFactor
+            new_user_file.write("5\n") # default recoveryTime
+            new_user_file.write("0.5\n") # default sensitivity
+            new_user_file.write("120\n") # default maxSensorRate
+
             new_user_file.close()
             return True
         except:

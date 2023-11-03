@@ -28,10 +28,12 @@ class UserClass:
             self.PVARP = int(f.readline().rstrip())
             self.hysteresisRateLimit = int(f.readline().rstrip())
             
-            # self.activityThreshold = (f.readline().rstrip())  # TODO STRING?
-            # self.reactionTime  = int(f.readline().rstrip())
-            # self.responseFactor  = int(f.readline().rstrip())
-            # self.recoveryTime = int(f.readline().rstrip())
+            self.activityThreshold = (f.readline().rstrip())  # TODO STRING?
+            self.reactionTime  = int(f.readline().rstrip())
+            self.responseFactor  = int(f.readline().rstrip())
+            self.recoveryTime = int(f.readline().rstrip())
+            self.sensitivity = int(f.readline().rstrip())
+            self.maxSensorRate = int(f.readline().rstrip())
 
 
         except:
@@ -61,11 +63,12 @@ class UserClass:
             user_file.write("{}\n".format(self.ARP))  
             user_file.write("{}\n".format(self.VRP))  
             user_file.write("{}\n".format(self.PVARP))  
-            user_file.write("{}\n".format(self.hysteresisRateLimit)) 
-            # user_file.write("{}\n".format(self.activityThreshold))  
-            # user_file.write("{}\n".format(self.reactionTime))  
-            # user_file.write("{}\n".format(self.responseFactor))  
-            # user_file.write("{}\n".format(self.recoveryTime)) 
+            user_file.write("{}\n".format(self.hysteresisRateLimit))
+            user_file.write("{}\n".format(self.sensitivity)) 
+            user_file.write("{}\n".format(self.activityThreshold))  
+            user_file.write("{}\n".format(self.reactionTime))  
+            user_file.write("{}\n".format(self.responseFactor))  
+            user_file.write("{}\n".format(self.recoveryTime)) 
 
             user_file.close()
             return True
@@ -133,25 +136,22 @@ class UserClass:
 
     def setVentPulseWidth(self, width)->bool:
         try:
-            widthFloat = float(width)
+            widthInt = int(width)
         except:
             return False
-        allowed_vals = [0.3,0.4,0.5,0.6,0.7,
-                        0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,
-                        1.7,1.8,1.9]
-        if (widthFloat in allowed_vals):
-            self.ventPulseWidth = widthFloat
-            self.overwriteUserData()
-            return True
-        return False
+        
+        if (widthInt<1 or widthInt>30):return False
+        self.ventPulseWidth = widthInt
+        self.overwriteUserData()
+        return True
 
     def setVentAmplitude(self, amp)->bool:
         try:
             ampFloat = float(amp)
         except:
             return False
-        allowed_vals = [2.5,3.0,3.5,4.0,4.5,5.0]
-        if (ampFloat in allowed_vals):
+        
+        if (10*ampFloat%1==0 and ampFloat>=0 and ampFloat<=5.0):
             self.ventAmplitude = ampFloat
             self.overwriteUserData()
             return True
@@ -159,25 +159,21 @@ class UserClass:
 
     def setAtrialPulseWidth(self, width)->bool:
         try:
-            widthFloat = float(width)
+            widthInt= int(width)
         except:
             return False
-        allowed_vals = [0.3,0.4,0.5,0.6,0.7,
-                        0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,
-                        1.7,1.8,1.9]
-        if (widthFloat in allowed_vals):
-            self.atrialPulseWidth = widthFloat
-            self.overwriteUserData()
-            return True
-        return False
+        
+        if (widthInt<1 or widthInt>30):return False
+        self.ventPulseWidth = widthInt
+        self.overwriteUserData()
+        return True
 
     def setAtrialAmplitude(self, amp)->bool:
         try:
             ampFloat = float(amp)
         except:
             return False
-        allowed_vals = [2.5,3.0,3.5,4.0,4.5,5.0]
-        if (ampFloat in allowed_vals):
+        if (10*ampFloat%1==0 and ampFloat>=0 and ampFloat<=5.0):
             self.atrialAmplitude = ampFloat
             self.overwriteUserData()
             return True
@@ -194,7 +190,6 @@ class UserClass:
         self.overwriteUserData()
         return True
         
-
     def setLowerRateLimit(self, lower)->bool:
         try:
             lowerInt = int(lower)
@@ -256,3 +251,95 @@ class UserClass:
         self.hysteresisRateLimit= limitInt
         self.overwriteUserData()
         return True
+    
+    def setsensitivity_adjustment(self, adjust)-> bool:
+        
+        try:
+            sensitivityInt = float(adjust)
+        except:
+            return False
+        allowed_vals = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5,
+                        1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 
+                        3.1,3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.0, 4.1, 4.2 , 4.3, 4.4, 4.5,
+                        4.6,4.7,4.8, 4.9, 5.0]
+        
+        if (sensitivityInt in allowed_vals):
+            self.sensitivity = sensitivityInt
+            self.overwriteUserData()
+            return True
+        return False
+
+    def setReactionTime(self,time)->bool:
+        try:
+            timeInt = int(time)
+        except:
+            return False
+        
+        if (timeInt>=10 and timeInt<=50 and timeInt%10==0):
+            self.reactionTime = timeInt
+            self.overwriteUserData()
+            return True
+        return False
+    
+    def setResponseFactor(self,factor)->bool:
+        try:
+            factorInt = int(factor)
+        except:
+            return False
+        if(factorInt>=1 and factorInt<=16):
+            self.responseFactor = factorInt
+            self.overwriteUserData()
+            return True
+        return False
+
+
+    def setRecoveryTime(self, time)->bool:
+        try:
+            timeInt = int(time)
+        except:
+            return False
+        if timeInt < 1 or timeInt > 16:
+            return False
+        else:
+            self.reco
+            
+    
+    def set_activity_threshold(self, degree)->bool:
+        
+        try:
+            valInt = int(degree)
+            if(valInt < 7 and valInt>=0):
+                self.degree = valInt
+                self.overwriteUserData()
+                return True
+        except:
+            if(degree == "V-LOW"): 
+                self.degree = 0
+                self.overwriteUserData()
+                return True
+            elif(degree == "Low"): 
+                self.degree = 1
+                self.overwriteUserData()
+                return True
+            elif(degree == "Med-Low"): 
+                self.degree = 2
+                self.overwriteUserData()
+                return True
+            elif(degree == "Med"): 
+                self.degree = 3
+                self.overwriteUserData()
+                return True
+            elif(degree == "Med_High"): 
+                self.degree = 4
+                self.overwriteUserData()
+                return True
+            elif(degree == "High"): 
+                self.degree = 5
+                self.overwriteUserData()
+                return True
+            elif(degree == "V-High"): 
+                self.degree = 6
+                self.overwriteUserData()
+                return True                                 
+            else:
+                return False

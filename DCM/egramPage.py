@@ -13,44 +13,56 @@ class egramPage(tk.Frame):
         self.controller = controller
 
         self.keepPlotting=False
-        backBtn = tk.Button(self, text="Back", command =lambda: self.backButtonFunc())
+        backBtn = tk.Button(self, text="Back", command =lambda: self.backBtnFunc())
         backBtn.pack(side="top", anchor="nw")
         startBtn = tk.Button(self, text="Start plotting", command =lambda: self.startButtonFunc())
         startBtn.pack(side="top")
+
+        # dd_options = ["Both","Atrium","Ventricle"]
+        # self.selected = tk.StringVar()
+        # self.selected.set("Both")
+        # self.dropDown = tk.OptionMenu(self, self.selected, *dd_options,
+        #                               command=lambda: self.changeView(self.selected.get()))
+        # self.dropDown.pack(side="top")
 
 
         self.atrData = []
         self.ventData = []
 
-        atriumPlotFrame = tk.LabelFrame(self, text='Atrium', bg='white', width=300, height=150)
-        atriumPlotFrame.pack(side="top")
-        ventPlotFrame = tk.LabelFrame(self, text='Ventricle', bg='white', width=300, height=150)
-        ventPlotFrame.pack(side="top")
+        self.atrFrame = tk.LabelFrame(self, text='Atrium', bg='white', width=200, height=100)
+        self.ventFrame = tk.LabelFrame(self, text='Ventricle', bg='white', width=200, height=100)
+        
+        
 
-        atrFig = Figure()
-        ventFig = Figure()
+        self.atrFig = Figure(figsize=(6,2))
+        self.ventFig = Figure(figsize=(6,2))
+        
 
-        self.ax = atrFig.add_subplot(111)
+        self.ax = self.atrFig.add_subplot(111) 
         self.ax.set_title("Atrium Electrocadiogram")
         self.ax.set_xlabel("Time(Sec)")
         self.ax.set_ylabel("Voltage(mV)")
         self.ax.set_xlim(0, 200)
         self.ax.set_ylim(-0.5, 6)
 
-        self.vx = ventFig.add_subplot(111)
+        self.vx = self.ventFig.add_subplot(111) 
         self.vx.set_title("Ventricle Electrocadiogram")
         self.vx.set_xlabel("Time(Sec)")
         self.vx.set_ylabel("Voltage(mV)")
         self.vx.set_xlim(0, 200)
         self.vx.set_ylim(-0.5, 6)
 
-        self.atrCanvas = FigureCanvasTkAgg(atrFig, master=atriumPlotFrame)
-        self.ventCanvas = FigureCanvasTkAgg(ventFig, master=ventPlotFrame)
+        self.atrCanvas = FigureCanvasTkAgg(self.atrFig, master=self.atrFrame)
+        self.ventCanvas = FigureCanvasTkAgg(self.ventFig, master=self.ventFrame)
 
-        self.atrCanvas.get_tk_widget().pack(side="top")
-        self.ventCanvas.get_tk_widget().pack(side="top")
+        self.atrCanvas.get_tk_widget().grid(row=1,column=1, sticky="nsew")
+        self.ventCanvas.get_tk_widget().grid(row=1,column=1, sticky="nsew")
+
         self.atrCanvas.draw()
         self.ventCanvas.draw()
+
+        self.atrFrame.pack(side="top")
+        self.ventFrame.pack(side="top")
 
     def startButtonFunc(self):
         self.keepPlotting =True
@@ -59,6 +71,13 @@ class egramPage(tk.Frame):
     def backBtnFunc(self):
         self.stopPlotting()
         self.controller.show_dashboard()
+
+  
+
+        
+
+
+
 
     def updatePlots(self):
         
@@ -72,8 +91,8 @@ class egramPage(tk.Frame):
         self.ax.plot(self.atrData, color="blue")
         self.vx.plot(self.ventData, color="blue")
 
-        self.ventCanvas.draw_idle()
         self.atrCanvas.draw_idle()
+        self.ventCanvas.draw_idle()
         if self.keepPlotting:
             self.after(200, self.updatePlots)
         else:

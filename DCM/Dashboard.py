@@ -42,6 +42,8 @@ class DashboardClass(tk.Frame):
         self.addARPToTable(9)
         self.addVRPToTable(10)
         self.addPVARPToTable(11)
+
+        self.addSensitivityToTable(12)
             
         
         self.parametersFrame.pack(side="top")
@@ -209,7 +211,7 @@ class DashboardClass(tk.Frame):
     def addVentAmpToTable(self, currentNumRows):
         row1=currentNumRows+1
         self.ventAmpLabel = tk.Label(self.parametersFrame,text="Ventricular amplitude: ")
-        ventAmpLabel2 = tk.Label(self.parametersFrame,text="Options are: [2.5,3.0,3.5,4.0,4.5,5.0]")
+        ventAmpLabel2 = tk.Label(self.parametersFrame,text="Must be a number in the range [0, 5.0] with at most one decimal place")
         ventAmpEntry = tk.Entry(self.parametersFrame)
         changeVentAmpBtn = tk.Button(self.parametersFrame, text="Change VA",
                                     command=lambda: self.changeVentAmp(ventAmpEntry.get(), self.changeParamMessageBox))
@@ -234,7 +236,7 @@ class DashboardClass(tk.Frame):
     def addAtrialAmpToTable(self, currentNumRows):
         row1=currentNumRows+1
         self.atrialAmpLabel = tk.Label(self.parametersFrame,text=" Atrial Amplitude: ")
-        atrialAmpLabel2 = tk.Label(self.parametersFrame,text="Options are: [2.5,3.0,3.5,4.0,4.5,5.0]")
+        atrialAmpLabel2 = tk.Label(self.parametersFrame,text="Must be a number in the range [0, 5.0] with at most one decimal place")
         atrialAmpEntry = tk.Entry(self.parametersFrame)
         changeAtrialAmpBtn = tk.Button(self.parametersFrame, text="Change Atrial Amplitude",
                                     command=lambda: self.changeAtrialAmp(atrialAmpEntry.get(), self.changeParamMessageBox))
@@ -317,6 +319,44 @@ class DashboardClass(tk.Frame):
         PVARPEntry.grid(row=row1, column=1)
         changePVARPBtn.grid(row=row1,column=2,sticky="W")
         PVARPLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addActivityThresholdToTable(self, currentNumRows):
+        row1=currentNumRows+1  
+        self.ActivityThresholdLabel = tk.Label(self.parametersFrame,text="Activity Threshold:")
+        ActivityThresholdLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be a number in [0,5] with at most one decimal place")
+        ActivityThresholdEntry = tk.Entry(self.parametersFrame)
+        changeActivityThresholdBtn = tk.Button(self.parametersFrame, text="Change Activity Threshold",
+                               command=lambda: self.changeActivityThreshold(ActivityThresholdEntry.get(), self.changeParamMessageBox))
+        self.ActivityThresholdLabel.grid(row=row1,column=0)
+        ActivityThresholdEntry.grid(row=row1, column=1)
+        changeActivityThresholdBtn.grid(row=row1,column=2,sticky="W")
+        ActivityThresholdLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addReactionTimeToTable(self, currentNumRows):
+        row1=currentNumRows+1  
+        self.ReactionTimeLabel = tk.Label(self.parametersFrame,text="Reaction Time:")
+        ReactionTimeLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be a number in [0,5] with at most one decimal place")
+        ReactionTimeEntry = tk.Entry(self.parametersFrame)
+        changeReactionTimeBtn = tk.Button(self.parametersFrame, text="Change Reaction Time",
+                               command=lambda: self.changeReactionTime(ReactionTimeEntry.get(), self.changeParamMessageBox))
+        self.ReactionTimeLabel.grid(row=row1,column=0)
+        ReactionTimeEntry.grid(row=row1, column=1)
+        changeReactionTimeBtn.grid(row=row1,column=2,sticky="W")
+        ReactionTimeLabel2.grid(row=row1,column=3,sticky="W")
+
+        # TODO keep adding table things
+
+    def addSensitivityToTable(self, currentNumRows):
+        row1=currentNumRows+1  
+        self.SensitivityLabel = tk.Label(self.parametersFrame,text= "Sensitivity:")
+        SensitivityLabel2= tk.Label(self.parametersFrame,wraplength="400",text=" Must be a number in integer from 0 to 6")
+        SensitivityEntry = tk.Entry(self.parametersFrame)
+        changeSensitivityBtn = tk.Button(self.parametersFrame, text="Change Sensitivity",
+                               command=lambda: self.changeSensitivity(SensitivityEntry.get(), self.changeParamMessageBox))
+        self.PVARPLabel.grid(row=row1,column=0)
+        SensitivityEntry.grid(row=row1, column=1)
+        changeSensitivityBtn.grid(row=row1,column=2,sticky="W")
+        SensitivityLabel2.grid(row=row1,column=3,sticky="W")
 
 
 
@@ -409,6 +449,24 @@ class DashboardClass(tk.Frame):
             self.load_user_info()
         else:
             message_box.config(text="Error: invalid PVARP",fg="red")
+
+    def changeActivityThreshold(self, ActivityThreshold, message_box):
+        if (self.user.set_activity_threshold(ActivityThreshold)):
+            message_box.config(text="set Activity Threshold",fg="black")
+        else:
+            message_box.config(text="Error: invalid Activity Threshold",fg="red")
+
+    def changeReactionTime(self, ReactionTime, message_box):
+        if (self.user.setReactionTime(ReactionTime)):
+            message_box.config(text="set Reaction Time",fg="black")
+        else:
+            message_box.config(text="Error: invalid Reaction Time",fg="red")
+            
+    def changeSensitivity(self, sensitivity, message_box):
+        if (self.user.setsensitivity_adjustment(sensitivity)):
+            message_box.config(text="set sensitivity",fg="black")
+        else:
+            message_box.config(text="Error: invalid sensitivity",fg="red")
         
     def set_user(self,user: UserClass):
         self.user = user
