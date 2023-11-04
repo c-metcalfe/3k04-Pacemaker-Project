@@ -25,7 +25,6 @@ class egramPage(tk.Frame):
         #                               command=lambda: self.changeView(self.selected.get()))
         # self.dropDown.pack(side="top")
 
-
         self.atrData = []
         self.ventData = []
 

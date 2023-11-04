@@ -21,18 +21,18 @@ class UserClass:
             self.atrialPulseWidth = float(f.readline().rstrip())
             self.atrialAmplitude = float(f.readline().rstrip())  
             self.upperRateLimit = int(f.readline().rstrip())  
-            self.lowerRateLimit = int(f.readline().rstrip()) 
+            self.lowerRateLimit = int(f.readline().rstrip()) # line 10
 
             self.ARP = int(f.readline().rstrip())  
             self.VRP = int(f.readline().rstrip())  
             self.PVARP = int(f.readline().rstrip())
             self.hysteresisRateLimit = int(f.readline().rstrip())
             
-            self.activityThreshold = (f.readline().rstrip())  # TODO STRING?
+            self.sensitivity = float(f.readline().rstrip())
+            self.activityThreshold = int(f.readline().rstrip())  # TODO STRING?
             self.reactionTime  = int(f.readline().rstrip())
             self.responseFactor  = int(f.readline().rstrip())
             self.recoveryTime = int(f.readline().rstrip())
-            self.sensitivity = int(f.readline().rstrip())
             self.maxSensorRate = int(f.readline().rstrip())
 
 
@@ -69,6 +69,7 @@ class UserClass:
             user_file.write("{}\n".format(self.reactionTime))  
             user_file.write("{}\n".format(self.responseFactor))  
             user_file.write("{}\n".format(self.recoveryTime)) 
+            user_file.write("{}\n".format(self.maxSensorRate)) 
 
             user_file.close()
             return True
@@ -253,7 +254,6 @@ class UserClass:
         return True
     
     def setsensitivity_adjustment(self, adjust)-> bool:
-        
         try:
             sensitivityInt = float(adjust)
         except:
@@ -301,7 +301,20 @@ class UserClass:
         if timeInt < 1 or timeInt > 16:
             return False
         else:
-            self.reco
+            self.recoveryTime = timeInt
+            self.overwriteUserData()
+            return True
+
+    def setMaxSenseRate(self, rate):
+        try: 
+            rateInt = int(rate)
+        except:
+            return False
+        if rateInt%5 ==0 and 50<=rateInt and 175>= rateInt:
+            self.maxSensorRate = rateInt
+            self.overwriteUserData()
+            return True
+
             
     
     def set_activity_threshold(self, degree)->bool:
@@ -309,36 +322,36 @@ class UserClass:
         try:
             valInt = int(degree)
             if(valInt < 7 and valInt>=0):
-                self.degree = valInt
+                self.activityThreshold = valInt
                 self.overwriteUserData()
                 return True
         except:
             if(degree == "V-LOW"): 
-                self.degree = 0
+                self.activityThreshold = 0
                 self.overwriteUserData()
                 return True
             elif(degree == "Low"): 
-                self.degree = 1
+                self.activityThreshold = 1
                 self.overwriteUserData()
                 return True
             elif(degree == "Med-Low"): 
-                self.degree = 2
+                self.activityThreshold = 2
                 self.overwriteUserData()
                 return True
             elif(degree == "Med"): 
-                self.degree = 3
+                self.activityThreshold = 3
                 self.overwriteUserData()
                 return True
             elif(degree == "Med_High"): 
-                self.degree = 4
+                self.activityThreshold = 4
                 self.overwriteUserData()
                 return True
             elif(degree == "High"): 
-                self.degree = 5
+                self.activityThreshold = 5
                 self.overwriteUserData()
                 return True
             elif(degree == "V-High"): 
-                self.degree = 6
+                self.activityThreshold = 6
                 self.overwriteUserData()
                 return True                                 
             else:

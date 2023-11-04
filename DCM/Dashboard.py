@@ -44,6 +44,11 @@ class DashboardClass(tk.Frame):
         self.addPVARPToTable(11)
 
         self.addSensitivityToTable(12)
+        self.addActivityThresholdToTable(13)
+        self.addReactionTimeToTable(14)
+        self.addResponseFactorToTable(15)
+        self.addRecoveryTimeToTable(16)
+        self.addMaxSenseRateToTable(17)
             
         
         self.parametersFrame.pack(side="top")
@@ -126,6 +131,11 @@ class DashboardClass(tk.Frame):
                 self.addAtrialAmpToTable(3)
                 self.addURLToTable(4)
                 self.addLRLToTable(5)
+                self.addActivityThresholdToTable(6)
+                self.addReactionTimeToTable(7)
+                self.addResponseFactorToTable(8)
+                self.addRecoveryTimeToTable(9)
+                self.addMaxSenseRateToTable(10)
 
                 self.load_user_info()
                 
@@ -136,6 +146,11 @@ class DashboardClass(tk.Frame):
                 self.addVentAmpToTable(3)
                 self.addURLToTable(4)
                 self.addLRLToTable(5)
+                self.addActivityThresholdToTable(6)
+                self.addReactionTimeToTable(7)
+                self.addResponseFactorToTable(8)
+                self.addRecoveryTimeToTable(9)
+                self.addMaxSenseRateToTable(10)
 
                 self.load_user_info()
         
@@ -148,6 +163,12 @@ class DashboardClass(tk.Frame):
                 self.addLRLToTable(5)
                 self.addARPToTable(6)
 
+                self.addActivityThresholdToTable(7)
+                self.addReactionTimeToTable(8)
+                self.addResponseFactorToTable(9)
+                self.addRecoveryTimeToTable(10)
+                self.addMaxSenseRateToTable(11)
+
                 self.load_user_info()
         
             elif(self.user.mode == 8): #VVIR
@@ -159,12 +180,20 @@ class DashboardClass(tk.Frame):
                 self.addLRLToTable(5)
                 self.addVRPToTable(6)
 
+                self.addActivityThresholdToTable(7)
+                self.addReactionTimeToTable(8)
+                self.addResponseFactorToTable(9)
+                self.addRecoveryTimeToTable(10)
+                self.addMaxSenseRateToTable(11)
+
                 self.load_user_info()
 
             else:  # Should never happen
                 self.load_user_info()
                 print("ERROR UINDUIFENFHUIFH")
-                message_box.config(text="Error: invalid Mode",fg="red")
+        else:
+            message_box.config(text="Error: invalid Mode",fg="red")
+                
 
     
     def emptyTable(self):
@@ -187,7 +216,7 @@ class DashboardClass(tk.Frame):
     def addModeToTable(self, currentNumRows):
         row1 =currentNumRows+1
         self.modeLabel = tk.Label(self.parametersFrame,text=" Pacing Mode:")
-        modeLabel2 = tk.Label(self.parametersFrame,text="Must me a valid Mode name (AOO, VOO, AII, VII, AOOR, VOOR, AAIR, VIIR) or mode number (1-8)")
+        modeLabel2 = tk.Label(self.parametersFrame, wraplength=400, text="Must me a valid Mode name (AOO, VOO, AII, VII, AOOR, VOOR, AAIR, VIIR) or mode number (1-8)")
         modeEntry = tk.Entry(self.parametersFrame)
         changeModeBtn = tk.Button(self.parametersFrame, text="Change Mode",
                                   command=lambda: self.changeMode(modeEntry.get(), self.changeParamMessageBox))
@@ -320,10 +349,22 @@ class DashboardClass(tk.Frame):
         changePVARPBtn.grid(row=row1,column=2,sticky="W")
         PVARPLabel2.grid(row=row1,column=3,sticky="W")
 
+    def addSensitivityToTable(self, currentNumRows):
+        row1=currentNumRows+1  
+        self.SensitivityLabel = tk.Label(self.parametersFrame,text= "Sensitivity:")
+        SensitivityLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Allowed values are: 0.25, 0.5, 0.75, 1, 1.5, 2,, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5 10")
+        SensitivityEntry = tk.Entry(self.parametersFrame)
+        changeSensitivityBtn = tk.Button(self.parametersFrame, text="Change Sensitivity",
+                               command=lambda: self.changeSensitivity(SensitivityEntry.get(), self.changeParamMessageBox))
+        self.PVARPLabel.grid(row=row1,column=0)
+        SensitivityEntry.grid(row=row1, column=1)
+        changeSensitivityBtn.grid(row=row1,column=2,sticky="W")
+        SensitivityLabel2.grid(row=row1,column=3,sticky="W")
+
     def addActivityThresholdToTable(self, currentNumRows):
         row1=currentNumRows+1  
         self.ActivityThresholdLabel = tk.Label(self.parametersFrame,text="Activity Threshold:")
-        ActivityThresholdLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be a number in [0,5] with at most one decimal place")
+        ActivityThresholdLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Allowed values are: V-Low, Low, Med-Low, Med, Med-High, High, V-High, or the number from 0-6 corresponding to each option.")
         ActivityThresholdEntry = tk.Entry(self.parametersFrame)
         changeActivityThresholdBtn = tk.Button(self.parametersFrame, text="Change Activity Threshold",
                                command=lambda: self.changeActivityThreshold(ActivityThresholdEntry.get(), self.changeParamMessageBox))
@@ -335,7 +376,7 @@ class DashboardClass(tk.Frame):
     def addReactionTimeToTable(self, currentNumRows):
         row1=currentNumRows+1  
         self.ReactionTimeLabel = tk.Label(self.parametersFrame,text="Reaction Time:")
-        ReactionTimeLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be a number in [0,5] with at most one decimal place")
+        ReactionTimeLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be a number in [10,50] that is divisible by 10")
         ReactionTimeEntry = tk.Entry(self.parametersFrame)
         changeReactionTimeBtn = tk.Button(self.parametersFrame, text="Change Reaction Time",
                                command=lambda: self.changeReactionTime(ReactionTimeEntry.get(), self.changeParamMessageBox))
@@ -344,19 +385,46 @@ class DashboardClass(tk.Frame):
         changeReactionTimeBtn.grid(row=row1,column=2,sticky="W")
         ReactionTimeLabel2.grid(row=row1,column=3,sticky="W")
 
+    def addResponseFactorToTable(self, currentNumRows):
+        row1=currentNumRows+1  
+        self.ResponseFactorLabel = tk.Label(self.parametersFrame,text="Response Factor:")
+        ResponseFactorLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be an integer in [1, 16]")
+        ResponseFactorEntry = tk.Entry(self.parametersFrame)
+        changeResponseFactorBtn = tk.Button(self.parametersFrame, text="Change Reaction Time",
+                               command=lambda: self.changeResponseFactor(ResponseFactorEntry.get(), self.changeParamMessageBox))
+        self.ResponseFactorLabel.grid(row=row1,column=0)
+        ResponseFactorEntry.grid(row=row1, column=1)
+        changeResponseFactorBtn.grid(row=row1,column=2,sticky="W")
+        ResponseFactorLabel2.grid(row=row1,column=3,sticky="W")
+
         # TODO keep adding table things
 
-    def addSensitivityToTable(self, currentNumRows):
+    
+
+    def addRecoveryTimeToTable(self, currentNumRows):
         row1=currentNumRows+1  
-        self.SensitivityLabel = tk.Label(self.parametersFrame,text= "Sensitivity:")
-        SensitivityLabel2= tk.Label(self.parametersFrame,wraplength="400",text=" Must be a number in integer from 0 to 6")
-        SensitivityEntry = tk.Entry(self.parametersFrame)
-        changeSensitivityBtn = tk.Button(self.parametersFrame, text="Change Sensitivity",
-                               command=lambda: self.changeSensitivity(SensitivityEntry.get(), self.changeParamMessageBox))
-        self.PVARPLabel.grid(row=row1,column=0)
-        SensitivityEntry.grid(row=row1, column=1)
-        changeSensitivityBtn.grid(row=row1,column=2,sticky="W")
-        SensitivityLabel2.grid(row=row1,column=3,sticky="W")
+        self.RecoveryTimeLabel = tk.Label(self.parametersFrame,text= "Recovery Time:")
+        RecoveryTimeLabel2= tk.Label(self.parametersFrame,wraplength="400",text=" Must be an integer in [2, 16]")
+        RecoveryTimeEntry = tk.Entry(self.parametersFrame)
+        changeRecoveryTimeBtn = tk.Button(self.parametersFrame, text="Change Recovery Time",
+                               command=lambda: self.changeRecoveryTime(RecoveryTimeEntry.get(), self.changeParamMessageBox))
+        self.RecoveryTimeLabel.grid(row=row1,column=0)
+        RecoveryTimeEntry.grid(row=row1, column=1)
+        changeRecoveryTimeBtn.grid(row=row1,column=2,sticky="W")
+        RecoveryTimeLabel2.grid(row=row1,column=3,sticky="W")
+
+    def addMaxSenseRateToTable(self, currentNumRows):
+        row1=currentNumRows+1  
+        self.MaxSenseRateLabel = tk.Label(self.parametersFrame,text= "Max Sensor Rate:")
+        MaxSenseRateLabel2= tk.Label(self.parametersFrame,wraplength="400",text="Must be an integer in [50, 175] that is divisible by 5")
+        MaxSenseRateEntry = tk.Entry(self.parametersFrame)
+        changeMaxSenseRateBtn = tk.Button(self.parametersFrame, text="Change Recovery Time",
+                               command=lambda: self.changeMaxSenseRate(MaxSenseRateEntry.get(), self.changeParamMessageBox))
+        self.MaxSenseRateLabel.grid(row=row1,column=0)
+        MaxSenseRateEntry.grid(row=row1, column=1)
+        changeMaxSenseRateBtn.grid(row=row1,column=2,sticky="W")
+        MaxSenseRateLabel2.grid(row=row1,column=3,sticky="W")
+
 
 
 
@@ -450,24 +518,48 @@ class DashboardClass(tk.Frame):
         else:
             message_box.config(text="Error: invalid PVARP",fg="red")
 
+    def changeSensitivity(self, sensitivity, message_box):
+        if (self.user.setsensitivity_adjustment(sensitivity)):
+            message_box.config(text="set sensitivity",fg="black")
+            self.load_user_info()
+        else:
+            message_box.config(text="Error: invalid sensitivity",fg="red")
+    
     def changeActivityThreshold(self, ActivityThreshold, message_box):
         if (self.user.set_activity_threshold(ActivityThreshold)):
             message_box.config(text="set Activity Threshold",fg="black")
+            self.load_user_info()
         else:
             message_box.config(text="Error: invalid Activity Threshold",fg="red")
 
     def changeReactionTime(self, ReactionTime, message_box):
         if (self.user.setReactionTime(ReactionTime)):
             message_box.config(text="set Reaction Time",fg="black")
+            self.load_user_info()
         else:
             message_box.config(text="Error: invalid Reaction Time",fg="red")
             
-    def changeSensitivity(self, sensitivity, message_box):
-        if (self.user.setsensitivity_adjustment(sensitivity)):
-            message_box.config(text="set sensitivity",fg="black")
+    def changeResponseFactor(self, ResponseFactor, message_box):
+        if (self.user.setResponseFactor(ResponseFactor)):
+            message_box.config(text="set Response Factor",fg="black")
+            self.load_user_info()
         else:
-            message_box.config(text="Error: invalid sensitivity",fg="red")
-        
+            message_box.config(text="Error: invalid Response Factor",fg="red")
+
+    def changeRecoveryTime(self, RecoveryTime, message_box):
+        if (self.user.setRecoveryTime(RecoveryTime)):
+            message_box.config(text="set Recovery Time",fg="black")
+            self.load_user_info()
+        else:
+            message_box.config(text="Error: invalid Recovery Time",fg="red")
+    
+    def changeMaxSenseRate(self, MaxSenseRate, message_box):
+        if (self.user.setMaxSenseRate(MaxSenseRate)):
+            message_box.config(text="set Max Sensor Rate",fg="black")
+            self.load_user_info()
+        else:
+            message_box.config(text="Error: invalid Max Sensor Rate",fg="red")
+
     def set_user(self,user: UserClass):
         self.user = user
 
@@ -491,16 +583,34 @@ class DashboardClass(tk.Frame):
         else: modeText = "ERROR"
         self.modeLabel.config(text = "Mode: {}".format(modeText))
 
-        self.ventPWLabel.config(text="Ventricular Pulse Width: {}".format(self.user.ventPulseWidth))
-        self.ventAmpLabel.config(text="Ventricular Amplitude: {}".format(self.user.ventAmplitude))
-        self.atrialPWLabel.config(text="Atrial Pulse Width: {}".format(self.user.atrialPulseWidth))
-        self.atrialAmpLabel.config(text="Atrial Amplitude: {}".format(self.user.atrialAmplitude))
-        self.URLLabel.config(text="Upper Rate Limit: {}".format(self.user.upperRateLimit))
-        self.LRLLabel.config(text="Lower Rate Limit: {}".format(self.user.lowerRateLimit))
-        self.HRLLabel.config(text="Hysteresis Rate Limit: {}".format(self.user.hysteresisRateLimit))
-        self.ARPLabel.config(text="Atrial Refractory Period: {}".format(self.user.ARP))
-        self.VRPLabel.config(text="Ventricular Refractory Period: {}".format(self.user.VRP))
-        self.PVARPLabel.config(text="Post-Ventricular Atrial Refractory Period: {}".format(self.user.ARP))
+        
+        self.ventPWLabel.config(text="Ventricular Pulse Width (ms): {}".format(self.user.ventPulseWidth))
+        self.ventAmpLabel.config(text="Ventricular Amplitude (V): {}".format(self.user.ventAmplitude))
+        self.atrialPWLabel.config(text="Atrial Pulse Width (ms): {}".format(self.user.atrialPulseWidth))
+        self.atrialAmpLabel.config(text="Atrial Amplitude (V): {}".format(self.user.atrialAmplitude))
+        self.URLLabel.config(text="Upper Rate Limit (ppm): {}".format(self.user.upperRateLimit))
+        self.LRLLabel.config(text="Lower Rate Limit (ppm): {}".format(self.user.lowerRateLimit))
+        self.HRLLabel.config(text="Hysteresis Rate Limit (ppm): {}".format(self.user.hysteresisRateLimit))
+        self.ARPLabel.config(text="Atrial Refractory Period (ms): {}".format(self.user.ARP))
+        self.VRPLabel.config(text="Ventricular Refractory Period (ms): {}".format(self.user.VRP))
+        self.PVARPLabel.config(text="Post-Ventricular Atrial Refractory Period (ms): {}".format(self.user.ARP))
+        self.SensitivityLabel.config(text="Sensitivity (mV): {}".format(self.user.sensitivity))
+        self.ReactionTimeLabel.config(text="Reaction Time (s): {}".format(self.user.reactionTime))
+        self.ResponseFactorLabel.config(text="Response Factor: {}".format(self.user.responseFactor))
+        self.RecoveryTimeLabel.config(text="Recovery Time (min): {}".format(self.user.recoveryTime))
+        self.MaxSenseRateLabel.config(text="Maximum Sensor Rate (ppm): {}".format(self.user.maxSensorRate))
+
+        if self.user.activityThreshold == 0: aTText = "V-Low"
+        elif self.user.activityThreshold == 1: aTText = "Low"
+        elif self.user.activityThreshold == 2: aTText = "Med-Low"
+        elif self.user.activityThreshold == 3: aTText = "Med"
+        elif self.user.activityThreshold == 4: aTText = "Med-High"
+        elif self.user.activityThreshold == 5: aTText = "High"
+        elif self.user.activityThreshold == 6: aTText = "V-High"
+
+        self.ActivityThresholdLabel.config(text="Activity Threshold: {}".format(aTText))
+
+
 
         #self.changeParamMessageBox.config(text="Enter values then use button to change indicated parameters")
         
