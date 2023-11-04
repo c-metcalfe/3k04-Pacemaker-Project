@@ -8,6 +8,8 @@ class DashboardClass(tk.Frame):
 
         back_button = tk.Button(self,text="Log out", command=lambda: self.backButtonCommand())
         back_button.pack(side="top", anchor="nw")
+
+        
         
         go_to_graph_button = tk.Button(self, text="graph button", command = lambda: self.graphbuttoncommand())
         go_to_graph_button.pack(side="bottom", anchor = "nw")
@@ -15,8 +17,18 @@ class DashboardClass(tk.Frame):
         self.nameLabel = tk.Label(self, text="Dashboard")
         self.nameLabel.pack(padx=10, pady=10)
         
-        self.parametersFrame = tk.Frame(self)
+        self.parametersFrame = tk.LabelFrame(self, text="Parameters Dashboard")
+        self.serialControlFrame = tk.LabelFrame(self, text="Serial Dashboard")
+
+        self.connectionStatusLabel = tk.Label(self.serialControlFrame, text="Not Connected",fg="black", bg="red")
+        self.connectionStatusLabel.pack(side="top")
+        sendToPacemakerBtn = tk.Button(self.serialControlFrame, text="Send parameters to pacemaker", 
+                                       command = lambda: print("this would send parameters to pacemaker"))
         
+        self.serialMsgBox = tk.Label(self.serialControlFrame, text="No Serial communication yet").pack(side="top")
+        sendToPacemakerBtn.pack(side="top", pady=10)
+
+
         self.changeParamMessageBox = tk.Label(self,font=('bold'),text="Enter values then use button to change indicated parameters")
 
         #headers
@@ -52,7 +64,9 @@ class DashboardClass(tk.Frame):
             
         
         self.parametersFrame.pack(side="top")
+
         self.changeParamMessageBox.pack(side="top",pady=20)
+        self.serialControlFrame.pack(side="top",pady=10)
         
         
         
