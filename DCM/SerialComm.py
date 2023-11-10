@@ -4,12 +4,10 @@ import User
 
 class serialComm():
     def __init__(self):
-        print("hrff")
         self.ser = serial.Serial()
         self.ser.port = "COM6"
         self.ser.baudrate = 115200
         self.ser.timeout = 2
-        print("h")
         ### this is the port that it connects to on my laptop -colin
 
     def attempt_connect(self):
@@ -20,26 +18,26 @@ class serialComm():
         return True
         
     def start_reading(self):
-        while True:
+        for i in range(10):
             data = self.ser.read(16)
             print(":", data)
             time.sleep(1)
-
+        self.ser.close()
     
         
     
-    def send_packet(self, user): # TODO send packet to pacemaker in correct format 
-        
-        binaryParams = bytearray()
-        binaryParams.append(bin(int(user.mode))[2:])
+    def send_packet(self, user): # send packet to pacemaker in correct format 
 
-        
+        paramsList = [user.mode,user.lowerRateLimit,user.upperRateLimit,int(10*user.atrialAmplitude),
+                int(10*user.ventAmplitude), user.atrialPulseWidth, user.ventPulseWidth, int(user.VRP /10),
+                int(user.ARP /10), user.activityThreshold, user.reactionTime, user.responseFactor, user.recoveryTime,
+                0,0]# 0's are reserved
+        binaryParams = bytearray(paramsList)
+    
+        binaryParams.append(checksum(binaryParams))
 
+        self.ser.write(binaryParams)
 
-        
-
-        
-    # checksum should be bitwise addition of bits 1-15
         
 
 def checksum(binaryParams):
@@ -53,37 +51,11 @@ def checksum(binaryParams):
 
 
 def main():
-    # ser = serialComm()
-    # if ser.attempt_connect():
-    #     ser.start_reading()
-    user = User.UserClass("dd")
-
-    paramsList = [user.mode,user.lowerRateLimit,user.upperRateLimit,int(10*user.atrialAmplitude),
-                int(10*user.ventAmplitude), user.atrialPulseWidth, user.ventPulseWidth, int(user.VRP /10),
-                int(user.ARP /10), user.activityThreshold, user.reactionTime, user.responseFactor, user.recoveryTime,
-                0,0]# 0's are reserved
-    binaryParams = bytearray(paramsList)
+    serial = serialComm()
+    dd = User("dd")
+    if serial.attempt_connect():
+        serial.send_packet(dd)
     
-    binaryParams.append(checksum(binaryParams))
-    
-    
-    # binaryParams.append(user.mode)
-    # binaryParams.append(user.lowerRateLimit)
-    # binaryParams.append(user.upperRateLimit)
-    # binaryParams.append(int(10*user.atrialAmplitude))
-    # binaryParams.append(int(10*user.ventAmplitude))
-    # binaryParams.append(user.atrialPulseWidth)
-    # binaryParams.append(user.ventPulseWidth)
-    # binaryParams.append(int(user.VRP /10))
-    # binaryParams.append(int(user.ARP /10))
-    # binaryParams.append(user.activityThreshold)
-    # binaryParams.append(user.reactionTime)
-    # binaryParams.append(user.responseFactor)
-    # binaryParams.append(user.recoveryTime)
-    # print(paramsList)
-    print(binaryParams)
-    for byte in binaryParams:
-        print(byte)
 
 main()
 
