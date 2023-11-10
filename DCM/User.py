@@ -16,9 +16,9 @@ class UserClass:
             # read pacemaker parameters to user attributes 
             self.pacingRate = int(f.readline().rstrip())
             self.mode = int(f.readline().rstrip())
-            self.ventPulseWidth = float(f.readline().rstrip())
+            self.ventPulseWidth = int(f.readline().rstrip())
             self.ventAmplitude = float(f.readline().rstrip())
-            self.atrialPulseWidth = float(f.readline().rstrip())
+            self.atrialPulseWidth = int(f.readline().rstrip())
             self.atrialAmplitude = float(f.readline().rstrip())  
             self.upperRateLimit = int(f.readline().rstrip())  
             self.lowerRateLimit = int(f.readline().rstrip()) # line 10
@@ -29,7 +29,7 @@ class UserClass:
             self.hysteresisRateLimit = int(f.readline().rstrip())
             
             self.sensitivity = float(f.readline().rstrip())
-            self.activityThreshold = int(f.readline().rstrip())  # TODO STRING?
+            self.activityThreshold = int(f.readline().rstrip())
             self.reactionTime  = int(f.readline().rstrip())
             self.responseFactor  = int(f.readline().rstrip())
             self.recoveryTime = int(f.readline().rstrip())
@@ -160,12 +160,12 @@ class UserClass:
 
     def setAtrialPulseWidth(self, width)->bool:
         try:
-            widthInt= int(width)
+            widthInt = int(width)
         except:
             return False
         
         if (widthInt<1 or widthInt>30):return False
-        self.ventPulseWidth = widthInt
+        self.atrialPulseWidth = widthInt
         self.overwriteUserData()
         return True
 

@@ -10,6 +10,7 @@ from RegisterPage import RegisterPageClass
 from WelcomePage import WelcomePageClass
 from Dashboard import DashboardClass
 from egramPage import egramPage
+##import SerialComm
 
 class GUI(tk.Tk):
     def __init__(self, *args, **kwargs):
