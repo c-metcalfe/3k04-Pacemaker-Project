@@ -15,8 +15,8 @@ int main(){
 
     //UNPACKING - SIMULINK SIDE
     sum = 0;
-    for (int i = 0; i < n - 1; i++){
+    for (int i = 0; i < n; i++){
         sum += data[i];
     }
-    printf("%d\n", checksum);
+    printf("%d\n", sum);
 }
