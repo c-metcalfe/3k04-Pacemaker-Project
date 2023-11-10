@@ -7,12 +7,10 @@ class DashboardClass(tk.Frame):
         self.controller = controller
 
         back_button = tk.Button(self,text="Log out", command=lambda: self.backButtonCommand())
-        back_button.pack(side="top", anchor="nw")
-
+        back_button.pack(side="left", anchor="nw")
         
-        
-        go_to_graph_button = tk.Button(self, text="graph button", command = lambda: self.graphbuttoncommand())
-        go_to_graph_button.pack(side="bottom", anchor = "nw")
+        go_to_graph_button = tk.Button(self, text="View Electrocardiogram Data", command = lambda: self.graphbuttoncommand())
+        go_to_graph_button.pack(side="top", anchor = "s", padx=10)
         
         self.nameLabel = tk.Label(self, text="Dashboard")
         self.nameLabel.pack(padx=10, pady=10)
@@ -267,7 +265,7 @@ class DashboardClass(tk.Frame):
         row1=currentNumRows+1
         
         self.atrialPWLabel = tk.Label(self.parametersFrame,text=" Atrial Pulse Width: ")
-        atrialPWLabel2 = tk.Label(self.parametersFrame,text="Must be a number in the range [0.3, 1.9] with one decimal place")
+        atrialPWLabel2 = tk.Label(self.parametersFrame,text="Must be an integer in the range [1, 30]")
         atrialPWEntry = tk.Entry(self.parametersFrame)
         changeAtrialPWBtn = tk.Button(self.parametersFrame, text="Change Atrial Pulse Width",
                                     command=lambda: self.changeAtrialPW(atrialPWEntry.get(), self.changeParamMessageBox))

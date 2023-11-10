@@ -72,12 +72,6 @@ class egramPage(tk.Frame):
         self.controller.show_dashboard()
 
   
-
-        
-
-
-
-
     def updatePlots(self):
         
         a = random.random() # TODO implement serial here
