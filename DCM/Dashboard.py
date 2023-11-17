@@ -118,23 +118,24 @@ class DashboardClass(tk.Frame):
 
         if self.user.serial_exists :
             try:
-                temp =self.user.serial.ser.read(1) # if the connection is lost this will throw an air
-                self.user.serial.send_packet()
-                print("sent packet")
-                
-                time.sleep(0.2)
-                received = self.user.serial.ser.read(5)
-
-                print(received)
-                for i in range(5):
-                    print(received[i])
-                if received[0]: # if packet recieved
-                    print("acknowledged")
+                temp =self.user.serial.ser.read() # connection check: if the connection is lost this will throw an air
 
             except: # connectio lost
                 self.user.serial_exists = False
                 self.attemptConnect() # updates the dashboard to communicate that connection has failed
                 return
+            
+            self.user.serial.send_packet()
+            print("sent packet")
+            
+            time.sleep(0.2)
+            received = self.user.serial.ser.read(5)
+
+            print(received)
+            for i in range(5):
+                print(received[i])
+            if received[0]: # if packet recieved
+                print("acknowledged")
         else:
             self.serialMsgBox.config(text="Connect a device first to transmit data")
             return
