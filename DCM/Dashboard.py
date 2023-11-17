@@ -1,6 +1,7 @@
 import tkinter as tk
 from User import UserClass
 from SerialComm import serialComm
+import time
 
 class DashboardClass(tk.Frame):
     def __init__(self,parent,controller):
@@ -28,7 +29,8 @@ class DashboardClass(tk.Frame):
         
         connectBtn.pack(side="top")
         
-        self.serialMsgBox = tk.Label(self.serialControlFrame, text="No Serial communication yet").pack(side="top")
+        self.serialMsgBox = tk.Label(self.serialControlFrame, text="No Serial communication yet")
+        self.serialMsgBox.pack(side="top")
 
         sendToPacemakerBtn.pack(side="top", pady=10)
 
@@ -90,15 +92,22 @@ class DashboardClass(tk.Frame):
             ## TODO remove whole table, add table entries for each relevant parameter
 
 
-    def attemptConnect(self):
-        if self.user.serial_exists:
+    def attemptConnect(self): # TODO fix all connection status checks from is_open to 
+        if self.user.serial_exists == True:
+            try:
+                temp = self.user.serial.read() # serial has been connected but has become disconnected
+            except:
+                self.user.serial_exists = False
+                self.connectionStatusLabel.config(bg="red", text= "Connection failed")
+                return
+            
             self.connectionStatusLabel.config(bg="yellow", text= "Device already connected")
             return
         self.user.serial = serialComm(self.user)
-        self.user.serial_exists = True
         
 
         if self.user.serial.attempt_connect():
+            self.user.serial_exists = True
             self.connectionStatusLabel.config(bg="light green", text= "Connected")
             self.serialMsgBox.config(text="Device connected")
 
@@ -106,11 +115,29 @@ class DashboardClass(tk.Frame):
             self.connectionStatusLabel.config(bg="red", text= "Connection failed")
 
     def sendParams(self):
-        if self.user.serial_exists:
-            self.user.serial.send_packet()
 
+        if self.user.serial_exists :
+            try:
+                temp =self.user.serial.ser.read(1) # if the connection is lost this will throw an air
+                self.user.serial.send_packet()
+                print("sent packet")
+                
+                time.sleep(0.2)
+                received = self.user.serial.ser.read(5)
+
+                print(received)
+                for i in range(5):
+                    print(received[i])
+                if received[0]: # if packet recieved
+                    print("acknowledged")
+
+            except: # connectio lost
+                self.user.serial_exists = False
+                self.attemptConnect() # updates the dashboard to communicate that connection has failed
+                return
         else:
             self.serialMsgBox.config(text="Connect a device first to transmit data")
+            return
 
 
     
@@ -252,6 +279,7 @@ class DashboardClass(tk.Frame):
         rateEntry.grid(row=row1, column=1)
         changeRateBtn.grid(row=row1,column=2,sticky="W")
         rateLabel2.grid(row=row1,column=3,sticky="W")
+        
 
     def addModeToTable(self, currentNumRows):
         row1 =currentNumRows+1
@@ -264,6 +292,7 @@ class DashboardClass(tk.Frame):
         modeEntry.grid(row=row1, column=1)
         changeModeBtn.grid(row=row1,column=2,sticky="W")
         modeLabel2.grid(row=row1,column=3,sticky="W")
+        
 
     def addVentPWToTable(self, currentNumRows):
         row1=currentNumRows+1

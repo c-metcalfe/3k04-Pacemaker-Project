@@ -4,6 +4,7 @@ class UserClass:
     def __init__(self, username): # This is not the function that creates a new user, see RegisterPage.py
         # open file from Users folder named "username"
         self.serial_exists = False
+        self.serail = None # until created
         try:
             file_name = os.path.join("DCM","Users", username, "{}.txt".format(username))
             f = open(file_name)
@@ -74,8 +75,6 @@ class UserClass:
             return True
         except:
             return False
-
-        
     
 
     #TODO add set functions for 4 new params
@@ -313,8 +312,7 @@ class UserClass:
             self.maxSensorRate = rateInt
             self.overwriteUserData()
             return True
-
-            
+        
     
     def set_activity_threshold(self, degree)->bool:
         
@@ -325,7 +323,7 @@ class UserClass:
                 self.overwriteUserData()
                 return True
         except:
-            if(degree == "V-LOW"): 
+            if(degree == "V-Low"): 
                 self.activityThreshold = 0
                 self.overwriteUserData()
                 return True

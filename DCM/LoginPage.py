@@ -54,6 +54,7 @@ class LoginPageClass(tk.Frame):
             message_box.config(text="Error: Incorrect Password.")
             return
         # delete text from boxes
+        potential_user.serial_exists = False
         self.password_entry.delete(0,len(self.password_entry.get()))
         self.username_entry.delete(0,len(self.username_entry.get()))  
         self.controller.load_dashboard(potential_user)
@@ -68,3 +69,4 @@ class LoginPageClass(tk.Frame):
 
 
         
+

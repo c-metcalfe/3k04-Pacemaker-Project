@@ -6,14 +6,20 @@ class serialComm():
     def __init__(self, user: User):
         self.ser = serial.Serial()
         self.user = user
-        self.ser.port = "COM6"
-        self.ser.baudrate = 115200
+        self.ser.port = "COM6"  # device specific
+        self.ser.bytesize = serial.EIGHTBITS
+        self.ser.baudrate = 9600
+        self.ser.parity = serial.PARITY_EVEN
+        self.ser.stopbits = 1
         self.ser.timeout = 2
         ### this is the port that it connects to on my laptop -colin
 
     def attempt_connect(self):
-        self.ser.open()
-        if not self.ser.is_open: 
+        try:
+            self.ser.open()
+        except:
+            pass
+        if not self.ser.is_open:
             print("Failed to open port")
             return False
         return True
@@ -29,13 +35,29 @@ class serialComm():
     
     def send_packet(self): # send packet to pacemaker in correct format 
         user = self.user
-        paramsList = [user.mode,user.lowerRateLimit,user.upperRateLimit,int(10*user.atrialAmplitude),
-                int(10*user.ventAmplitude), user.atrialPulseWidth, user.ventPulseWidth, int(user.VRP /10),
-                int(user.ARP /10), user.activityThreshold, user.reactionTime, user.responseFactor, user.recoveryTime,
-                0,0]# 0's are reserved
+        paramsList = [user.mode,
+                      user.lowerRateLimit,
+                      user.upperRateLimit,
+                      int(10*user.atrialAmplitude),
+                      int(10*user.ventAmplitude), 
+                      user.atrialPulseWidth, 
+                      user.ventPulseWidth, 
+                      int(user.VRP /10),
+                      int(user.ARP /10), 
+                      user.activityThreshold, 
+                      user.reactionTime, 
+                      user.responseFactor, 
+                      user.recoveryTime,
+                      0,
+                      0,
+                      0]# 0's are reserved
         binaryParams = bytearray(paramsList)
+        # for param in paramsList:
+        #     print(type(param), end=", ") 
+        # print(paramsList)
+        # print(binaryParams)
     
-        binaryParams.append(checksum(binaryParams))
+        #binaryParams.append(checksum(binaryParams))
 
         self.ser.write(binaryParams)
 
