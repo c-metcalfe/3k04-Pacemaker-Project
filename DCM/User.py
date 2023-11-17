@@ -3,8 +3,7 @@ import os
 class UserClass:
     def __init__(self, username): # This is not the function that creates a new user, see RegisterPage.py
         # open file from Users folder named "username"
-        # assign parameter values from file
-        # maybe encrypt file?
+        self.serial_exists = False
         try:
             file_name = os.path.join("DCM","Users", username, "{}.txt".format(username))
             f = open(file_name)

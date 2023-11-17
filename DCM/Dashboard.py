@@ -1,5 +1,6 @@
 import tkinter as tk
 from User import UserClass
+from SerialComm import serialComm
 
 class DashboardClass(tk.Frame):
     def __init__(self,parent,controller):
@@ -20,10 +21,15 @@ class DashboardClass(tk.Frame):
 
         self.connectionStatusLabel = tk.Label(self.serialControlFrame, text="Not Connected",fg="black", bg="red")
         self.connectionStatusLabel.pack(side="top")
+        connectBtn = tk.Button(self.serialControlFrame, text="Connect to pacemaker", 
+                                       command = lambda: self.attemptConnect())
         sendToPacemakerBtn = tk.Button(self.serialControlFrame, text="Send parameters to pacemaker", 
-                                       command = lambda: print("this would send parameters to pacemaker"))
+                                       command = lambda: self.sendParams())
+        
+        connectBtn.pack(side="top")
         
         self.serialMsgBox = tk.Label(self.serialControlFrame, text="No Serial communication yet").pack(side="top")
+
         sendToPacemakerBtn.pack(side="top", pady=10)
 
 
@@ -83,6 +89,28 @@ class DashboardClass(tk.Frame):
            ## MODE CHANGE Button 
             ## TODO remove whole table, add table entries for each relevant parameter
 
+
+    def attemptConnect(self):
+        if self.user.serial_exists:
+            self.connectionStatusLabel.config(bg="yellow", text= "Device already connected")
+            return
+        self.user.serial = serialComm(self.user)
+        self.user.serial_exists = True
+        
+
+        if self.user.serial.attempt_connect():
+            self.connectionStatusLabel.config(bg="light green", text= "Connected")
+            self.serialMsgBox.config(text="Device connected")
+
+        else:
+            self.connectionStatusLabel.config(bg="red", text= "Connection failed")
+
+    def sendParams(self):
+        if self.user.serial_exists:
+            self.user.serial.send_packet()
+
+        else:
+            self.serialMsgBox.config(text="Connect a device first to transmit data")
 
 
     

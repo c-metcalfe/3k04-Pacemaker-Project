@@ -3,8 +3,9 @@ import time
 import User
 
 class serialComm():
-    def __init__(self):
+    def __init__(self, user: User):
         self.ser = serial.Serial()
+        self.user = user
         self.ser.port = "COM6"
         self.ser.baudrate = 115200
         self.ser.timeout = 2
@@ -26,8 +27,8 @@ class serialComm():
     
         
     
-    def send_packet(self, user): # send packet to pacemaker in correct format 
-
+    def send_packet(self): # send packet to pacemaker in correct format 
+        user = self.user
         paramsList = [user.mode,user.lowerRateLimit,user.upperRateLimit,int(10*user.atrialAmplitude),
                 int(10*user.ventAmplitude), user.atrialPulseWidth, user.ventPulseWidth, int(user.VRP /10),
                 int(user.ARP /10), user.activityThreshold, user.reactionTime, user.responseFactor, user.recoveryTime,
@@ -50,13 +51,18 @@ def checksum(binaryParams):
         return int(binSum[x:], 2)
 
 
-def main():
-    serial = serialComm()
-    dd = User("dd")
-    if serial.attempt_connect():
-        serial.send_packet(dd)
+# def main():
+#     serial = serialComm()
+#     dd = User("dd")
+    
+#     if serial.attempt_connect():
+#         print("connected")
+#         #serial.send_packet(dd)
+#         time.sleep(2)
+#         serial.ser.close()
+
     
 
-main()
+# main()
 
 
