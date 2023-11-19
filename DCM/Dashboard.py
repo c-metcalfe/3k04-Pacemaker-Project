@@ -11,8 +11,7 @@ class DashboardClass(tk.Frame):
         back_button = tk.Button(self,text="Log out", command=lambda: self.backButtonCommand())
         back_button.pack(side="left", anchor="nw")
         
-        go_to_graph_button = tk.Button(self, text="View Electrocardiogram Data", command = lambda: self.graphbuttoncommand())
-        go_to_graph_button.pack(side="top", anchor = "s", padx=10)
+        
         
         self.nameLabel = tk.Label(self, text="Dashboard")
         self.nameLabel.pack(padx=10, pady=10)
@@ -33,6 +32,8 @@ class DashboardClass(tk.Frame):
         self.serialMsgBox.pack(side="top")
 
         sendToPacemakerBtn.pack(side="top", pady=10)
+        go_to_graph_button = tk.Button(self.serialControlFrame, text="View Electrocardiogram Data", command = lambda: self.graphbuttoncommand())
+        go_to_graph_button.pack(side="top", anchor = "s", padx=10)
 
 
         self.changeParamMessageBox = tk.Label(self,font=('bold'),text="Enter values then use button to change indicated parameters")
