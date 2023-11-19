@@ -66,11 +66,17 @@ class GUI(tk.Tk):
         
         return True
     
-    def load_egram_page(self, user):
+    def set_egram_user(self, user):
         egram = self.frames[egramPage]
         egram.user = user
 
     def logout(self):
+        try:  # TODO test with board
+            user = self.frames[egramPage].user
+            if user.serial and user.serial.ser.is_open: # serial created and serial port still open
+                user.serial.ser.close()
+        except: # if already closed of never opened
+            pass
         self.frames[egramPage].user = None
         self.frames[DashboardClass].user = None
     

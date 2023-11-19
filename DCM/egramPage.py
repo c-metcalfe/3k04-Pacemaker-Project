@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.figure import Figure
@@ -21,13 +22,6 @@ class egramPage(tk.Frame):
 
         self.msg_label = tk.Label(self, text = "")
         self.msg_label.pack(side="top")
-
-        # dd_options = ["Both","Atrium","Ventricle"]
-        # self.selected = tk.StringVar()
-        # self.selected.set("Both")
-        # self.dropDown = tk.OptionMenu(self, self.selected, *dd_options,
-        #                               command=lambda: self.changeView(self.selected.get()))
-        # self.dropDown.pack(side="top")
 
         self.atrData = []
         self.ventData = []
@@ -63,6 +57,20 @@ class egramPage(tk.Frame):
 
         self.atrCanvas.draw()
         self.ventCanvas.draw()
+        
+        
+        
+        btnBox = tk.Frame(self)
+        ventBtn = tk.Button(btnBox,text="Ventricle", command=lambda: self.changeView("Ventricle"))
+        atrBtn = tk.Button(btnBox,text="Atrium", command=lambda: self.changeView("Atrium"))
+        bothBtn = tk.Button(btnBox,text="Both", command=lambda: self.changeView("Both"))
+
+        ventBtn.pack(side="left")
+        atrBtn.pack(side="left")
+        bothBtn.pack(side="left")
+        btnBox.pack(side="top")
+
+
 
         self.atrFrame.pack(side="top")
         self.ventFrame.pack(side="top")
@@ -72,7 +80,7 @@ class egramPage(tk.Frame):
         self.updatePlots()
 
     def backBtnFunc(self):
-        self.stopPlotting()
+        self.keepPlotting=False
         self.controller.show_dashboard()
 
   
@@ -103,7 +111,16 @@ class egramPage(tk.Frame):
         else:
             return
         
-    def stopPlotting(self):
-        self.keepPlotting=False
-
-    
+  
+    def changeView(self, view):
+        #view = self.selected.get()
+        self.atrFrame.pack_forget()
+        self.ventFrame.pack_forget()
+        print("deleted")
+        if view == "Atrium":
+            self.atrFrame.pack(side="top")
+        elif view == "Ventricle":
+            self.ventFrame.pack(side="top")
+        else:
+            self.atrFrame.pack(side="top")
+            self.ventFrame.pack(side="top")

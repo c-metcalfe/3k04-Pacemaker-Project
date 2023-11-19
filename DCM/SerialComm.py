@@ -22,16 +22,7 @@ class serialComm():
         if not self.ser.is_open:
             print("Failed to open port")
             return False
-        return True
-        
-    def start_reading(self):
-        for i in range(10):
-            data = self.ser.read(16)
-            print(":", data)
-            time.sleep(1)
-        self.ser.close()
-    
-        
+        return True 
     
     def send_packet(self): # send packet to pacemaker in correct format 
         user = self.user
