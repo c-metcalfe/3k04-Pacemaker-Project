@@ -16,8 +16,12 @@ class GUI(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs) # when the GUI is created, pass args to tkinter default init function
         self.wm_title("DCM Application")
-        self.wm_geometry("1000x750")
-        
+        #self.wm_geometry("1000x750")
+        # self.attributes('-fullscreen', True)
+        width= self.winfo_screenwidth()               
+        height= self.winfo_screenheight()               
+        self.geometry("%dx%d" % (width, height))
+
         container = tk.Frame(self, height=4000, width=6000)
         container.pack(side="top", fill="both", expand=True)
         
@@ -61,6 +65,14 @@ class GUI(tk.Tk):
         dashboard.changeMode(dashboard.user.mode, dashboard.changeParamMessageBox)
         
         return True
+    
+    def load_egram_page(self, user):
+        egram = self.frames[egramPage]
+        egram.user = user
+
+    def logout(self):
+        self.frames[egramPage].user = None
+        self.frames[DashboardClass].user = None
     
     def chooseMode(self):
         dashboard = self.frames[DashboardClass]

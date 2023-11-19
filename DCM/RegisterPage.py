@@ -76,6 +76,7 @@ class RegisterPageClass(tk.Frame):
         if self.controller.load_dashboard(potential_user):
             self.password_entry.delete(0,len(self.password_entry.get()))
             self.username_entry.delete(0,len(self.username_entry.get())) 
+            self.controller.load_egram_page(potential_user)
             self.controller.show_frame(DashboardClass)
             self.controller.chooseMode()
 

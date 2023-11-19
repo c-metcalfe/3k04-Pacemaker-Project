@@ -8,15 +8,19 @@ import time
 import random
 
 class egramPage(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, user=None):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+        self.user = user
 
         self.keepPlotting=False
         backBtn = tk.Button(self, text="Back", command =lambda: self.backBtnFunc())
         backBtn.pack(side="top", anchor="nw")
         startBtn = tk.Button(self, text="Start plotting", command =lambda: self.startButtonFunc())
         startBtn.pack(side="top")
+
+        self.msg_label = tk.Label(self, text = "")
+        self.msg_label.pack(side="top")
 
         # dd_options = ["Both","Atrium","Ventricle"]
         # self.selected = tk.StringVar()
@@ -73,11 +77,19 @@ class egramPage(tk.Frame):
 
   
     def updatePlots(self):
-        
-        a = random.random() # TODO implement serial here
-        
-        self.atrData.insert(0,a)
-        self.ventData.insert(0,a)
+
+        try:
+            a = self.user.serial.read(5)
+
+        except:
+            self.msg_label.config(text="No device connection", bg="red")
+            return
+        self.msg_label.config(text="Device connectted", bg="light green")
+        atr = a[1]
+        vent = a[2]
+
+        self.atrData.insert(0,atr)
+        self.ventData.insert(0,vent)
 
         # self.ax.cla()
         # self.vx.cla()

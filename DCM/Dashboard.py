@@ -81,21 +81,18 @@ class DashboardClass(tk.Frame):
         
 
     def backButtonCommand(self):
-        self.user = None
+        self.controller.logout()
         self.controller.show_login()
         
     def graphbuttoncommand(self):
-        self.user = None
         self.controller.show_egram()
 
-           ## MODE CHANGE Button 
-            ## TODO remove whole table, add table entries for each relevant parameter
 
 
     def attemptConnect(self): # TODO fix all connection status checks from is_open to 
         if self.user.serial_exists == True:
             try:
-                temp = self.user.serial.read() # serial has been connected but has become disconnected
+                temp = self.user.serial.read(5) # serial has been connected but has become disconnected
             except:
                 self.user.serial_exists = False
                 self.connectionStatusLabel.config(bg="red", text= "Connection failed")
@@ -118,7 +115,7 @@ class DashboardClass(tk.Frame):
 
         if self.user.serial_exists :
             try:
-                temp =self.user.serial.ser.read() # connection check: if the connection is lost this will throw an air
+                temp =self.user.serial.ser.read(5) # connection check: if the connection is lost this will throw an air
 
             except: # connectio lost
                 self.user.serial_exists = False
@@ -467,9 +464,7 @@ class DashboardClass(tk.Frame):
         changeResponseFactorBtn.grid(row=row1,column=2,sticky="W")
         ResponseFactorLabel2.grid(row=row1,column=3,sticky="W")
 
-        # TODO keep adding table things
-
-    
+       
 
     def addRecoveryTimeToTable(self, currentNumRows):
         row1=currentNumRows+1  

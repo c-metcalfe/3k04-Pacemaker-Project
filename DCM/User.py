@@ -4,7 +4,7 @@ class UserClass:
     def __init__(self, username): # This is not the function that creates a new user, see RegisterPage.py
         # open file from Users folder named "username"
         self.serial_exists = False
-        self.serail = None # until created
+        self.serial = None # until created
         try:
             file_name = os.path.join("DCM","Users", username, "{}.txt".format(username))
             f = open(file_name)
@@ -77,8 +77,7 @@ class UserClass:
             return False
     
 
-    #TODO add set functions for 4 new params
-    #  
+    
     def setPacingRate(self, rate)->bool:
         try:
             rateInt = int(rate)
