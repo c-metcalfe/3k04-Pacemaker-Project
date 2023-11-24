@@ -92,41 +92,41 @@ class UserClass:
     def setMode(self, mode)->bool:
         try:
             modeInt = int(mode)
-            if(modeInt <9 and modeInt>0):
+            if(modeInt <8 and modeInt>=0):
                 self.mode = modeInt
                 self.overwriteUserData()
                 return True
         except:
             if(mode == "AOO"): 
-                self.mode = 1
+                self.mode = 0
                 self.overwriteUserData()
                 return True
             elif(mode == "VOO"): 
-                self.mode = 2
+                self.mode = 1
                 self.overwriteUserData()
                 return True
             elif(mode == "AAI"): 
-                self.mode = 3
+                self.mode = 2
                 self.overwriteUserData()
                 return True
             elif(mode == "VVI"): 
-                self.mode = 4
+                self.mode = 3
                 self.overwriteUserData()
                 return True
             elif(mode == "AOOR"): 
-                self.mode = 5
+                self.mode = 4
                 self.overwriteUserData()
                 return True
             elif(mode == "VOOR"): 
-                self.mode = 6
+                self.mode = 5
                 self.overwriteUserData()
                 return True
             elif(mode == "AAIR"): 
-                self.mode = 7
+                self.mode = 6
                 self.overwriteUserData()
                 return True
             elif(mode == "VVIR"): 
-                self.mode = 8
+                self.mode = 7
                 self.overwriteUserData()
                 return True                                   
             else:

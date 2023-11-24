@@ -93,7 +93,7 @@ class DashboardClass(tk.Frame):
     def attemptConnect(self): # TODO fix all connection status checks from is_open to 
         if self.user.serial_exists == True:
             try:
-                temp = self.user.serial.read(5) # serial has been connected but has become disconnected
+                temp = self.user.serial.read(0) # serial has been connected but has become disconnected
             except:
                 self.user.serial_exists = False
                 self.connectionStatusLabel.config(bg="red", text= "Connection failed")
@@ -146,7 +146,7 @@ class DashboardClass(tk.Frame):
             
 
             self.emptyTable()
-            if(self.user.mode == 1): # AOO
+            if(self.user.mode == 0): # AOO
                 self.addModeToTable(0)
                 self.addPacingRateToTable(1)
                 self.addAtrialPWToTable(2)
@@ -157,7 +157,7 @@ class DashboardClass(tk.Frame):
                 self.load_user_info()
                 
 
-            elif(self.user.mode == 2): #VOO
+            elif(self.user.mode == 1): #VOO
                 self.addModeToTable(0)
                 self.addPacingRateToTable(1)
                 self.addVentPWToTable(2)
@@ -168,7 +168,7 @@ class DashboardClass(tk.Frame):
                 self.load_user_info()
                 
 
-            elif(self.user.mode == 3): #AAI
+            elif(self.user.mode == 2): #AAI
                 self.addModeToTable(0)
                 self.addPacingRateToTable(1)
                 self.addAtrialPWToTable(2)
@@ -179,7 +179,7 @@ class DashboardClass(tk.Frame):
 
                 self.load_user_info()
 
-            elif(self.user.mode == 4): #VVI
+            elif(self.user.mode == 3): #VVI
                 self.addModeToTable(0)
                 self.addPacingRateToTable(1)
                 self.addVentPWToTable(2)
@@ -190,7 +190,7 @@ class DashboardClass(tk.Frame):
 
                 self.load_user_info()               
                                 
-            elif(self.user.mode == 5): #AOOR
+            elif(self.user.mode == 4): #AOOR
                 self.addModeToTable(0)
                 self.addPacingRateToTable(1)
                 self.addAtrialPWToTable(2)
@@ -205,7 +205,7 @@ class DashboardClass(tk.Frame):
 
                 self.load_user_info()
                 
-            elif(self.user.mode == 6): #VOOR
+            elif(self.user.mode == 5): #VOOR
                 self.addModeToTable(0)
                 self.addPacingRateToTable(1)
                 self.addVentPWToTable(2)
@@ -220,7 +220,7 @@ class DashboardClass(tk.Frame):
 
                 self.load_user_info()
         
-            elif(self.user.mode == 7): #AAIR
+            elif(self.user.mode == 6): #AAIR
                 self.addModeToTable(0)
                 self.addPacingRateToTable(1)
                 self.addAtrialPWToTable(2)
@@ -237,7 +237,7 @@ class DashboardClass(tk.Frame):
 
                 self.load_user_info()
         
-            elif(self.user.mode == 8): #VVIR
+            elif(self.user.mode == 7): #VVIR
                 self.addModeToTable(0)
                 self.addPacingRateToTable(1)
                 self.addVentPWToTable(2)
@@ -283,7 +283,7 @@ class DashboardClass(tk.Frame):
     def addModeToTable(self, currentNumRows):
         row1 =currentNumRows+1
         self.modeLabel = tk.Label(self.parametersFrame,text=" Pacing Mode:")
-        modeLabel2 = tk.Label(self.parametersFrame, wraplength=400, text="Must me a valid Mode name (AOO, VOO, AII, VII, AOOR, VOOR, AAIR, VIIR) or mode number (1-8)")
+        modeLabel2 = tk.Label(self.parametersFrame, wraplength=400, text="Must me a valid Mode name (AOO, VOO, AII, VII, AOOR, VOOR, AAIR, VIIR) or mode number (0-7)")
         modeEntry = tk.Entry(self.parametersFrame)
         changeModeBtn = tk.Button(self.parametersFrame, text="Change Mode",
                                   command=lambda: self.changeMode(modeEntry.get(), self.changeParamMessageBox))
@@ -638,15 +638,15 @@ class DashboardClass(tk.Frame):
         self.rateLabel.config(text = "Pacing Rate: {}".format(self.user.pacingRate))
 
         mode = self.user.mode
-        if mode == 1: modeText = "AOO"
-        elif mode == 2: modeText = "VOO"
-        elif mode == 3: modeText = "AAI"
-        elif mode == 4: modeText = "VVI"
-        elif mode == 5: modeText = "AOOR"
-        elif mode == 6: modeText = "VOOR"
-        elif mode == 7: modeText = "AAIR"
-        elif mode == 8: modeText = "VVIR"        
-        else: modeText = "ERROR"
+        if mode == 0: modeText = "AOO"
+        elif mode == 1: modeText = "VOO"
+        elif mode == 2: modeText = "AAI"
+        elif mode == 3: modeText = "VVI"
+        elif mode == 4: modeText = "AOOR"
+        elif mode == 5: modeText = "VOOR"
+        elif mode == 6: modeText = "AAIR"
+        elif mode == 7: modeText = "VVIR"        
+        else: modeText = "NO MODE"
         self.modeLabel.config(text = "Mode: {}".format(modeText))
 
         

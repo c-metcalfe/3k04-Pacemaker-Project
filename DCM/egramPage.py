@@ -17,36 +17,45 @@ class egramPage(tk.Frame):
         self.keepPlotting=False
         backBtn = tk.Button(self, text="Back", command =lambda: self.backBtnFunc())
         backBtn.pack(side="top", anchor="nw")
-        startBtn = tk.Button(self, text="Start plotting", command =lambda: self.startButtonFunc())
-        startBtn.pack(side="top")
+        btnBox = tk.Frame(self)
+        startBtn = tk.Button(btnBox, text="Start plotting", command =lambda: self.startButtonFunc())
+        stopBtn = tk.Button(btnBox, text="Stop plotting", command =lambda: self.stopPlotting())
+        startBtn.pack(side="left")
+        stopBtn.pack(side="right")
+        btnBox.pack(side="top")
+
 
         self.msg_label = tk.Label(self, text = "")
         self.msg_label.pack(side="top")
 
-        self.atrData = []
-        self.ventData = []
+        self.atrData = [0] *200
+        self.ventData = [0] *200
 
         self.atrFrame = tk.LabelFrame(self, text='Atrium', bg='white', width=200, height=100)
         self.ventFrame = tk.LabelFrame(self, text='Ventricle', bg='white', width=200, height=100)
         
         
 
-        self.atrFig = Figure(figsize=(6,2))
-        self.ventFig = Figure(figsize=(6,2))
+        self.atrFig = Figure(figsize=(6,3))
+        self.ventFig = Figure(figsize=(6,3))
+        
+        
+        self.atrFig.suptitle("Atrium Electrocadiogram")
+        self.atrFig.supxlabel("Time(s)", y=0)
+        self.atrFig.supylabel("Voltage(mV)")
+        self.ax = self.atrFig.add_subplot(111) 
+        self.atrFig.subplots_adjust(bottom=0.25)
+        self.ax.set_xlim(0, 10)  ## 200 values stored, new value retrieved every 50 ms, 200*50mS=10s
+        self.ax.set_ylim(-0.5, 6)
         
 
-        self.ax = self.atrFig.add_subplot(111) 
-        self.ax.set_title("Atrium Electrocadiogram")
-        self.ax.set_xlabel("Time(Sec)")
-        self.ax.set_ylabel("Voltage(mV)")
-        self.ax.set_xlim(0, 200)
-        self.ax.set_ylim(-0.5, 6)
-
+        self.ventFig.tight_layout()
+        self.ventFig.suptitle("Ventricle Electrocadiogram")
+        self.ventFig.supxlabel("Time(s)", y=0)
+        self.ventFig.supylabel("Voltage(mV)")
         self.vx = self.ventFig.add_subplot(111) 
-        self.vx.set_title("Ventricle Electrocadiogram")
-        self.vx.set_xlabel("Time(Sec)")
-        self.vx.set_ylabel("Voltage(mV)")
-        self.vx.set_xlim(0, 200)
+        self.ventFig.subplots_adjust(bottom=0.25)
+        self.vx.set_xlim(0, 10)
         self.vx.set_ylim(-0.5, 6)
 
         self.atrCanvas = FigureCanvasTkAgg(self.atrFig, master=self.atrFrame)
@@ -79,6 +88,9 @@ class egramPage(tk.Frame):
         self.keepPlotting =True
         self.updatePlots()
 
+    def stopPlotting(self):
+        self.keepPlotting=False
+
     def backBtnFunc(self):
         self.keepPlotting=False
         self.controller.show_dashboard()
@@ -87,27 +99,35 @@ class egramPage(tk.Frame):
     def updatePlots(self):
 
         try:
-            a = self.user.serial.read(5)
+            a = self.user.serial.ser.read(5)
+            atr = a[1]
+            vent = a[2]
+            print("byte 2: ",a[1], "  byte 3:  ", a[2])
 
         except:
-            self.msg_label.config(text="No device connection", bg="red")
+            self.msg_label.config(text="Connection Failed", bg="red")
             return
-        self.msg_label.config(text="Device connectted", bg="light green")
-        atr = a[1]
-        vent = a[2]
+        self.msg_label.config(text="Device connected", bg="light green")
+        # atr = 3*random.random()**2 
+        # vent = 3*random.random()**2 
 
         self.atrData.insert(0,atr)
         self.ventData.insert(0,vent)
+        self.ventData.pop()
+        self.atrData.pop()
 
-        # self.ax.cla()
-        # self.vx.cla()
+        # print(self.atrData)
+        # print(self.ventData)
+
+        self.ax.cla()
+        self.vx.cla()
         self.ax.plot(self.atrData, color="blue")
         self.vx.plot(self.ventData, color="blue")
 
         self.atrCanvas.draw_idle()
         self.ventCanvas.draw_idle()
         if self.keepPlotting:
-            self.after(200, self.updatePlots)
+            self.after(50, self.updatePlots)
         else:
             return
         
