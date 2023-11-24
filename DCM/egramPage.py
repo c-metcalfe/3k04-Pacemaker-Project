@@ -28,8 +28,8 @@ class egramPage(tk.Frame):
         self.msg_label = tk.Label(self, text = "")
         self.msg_label.pack(side="top")
 
-        self.atrData = [0] *200
-        self.ventData = [0] *200
+        self.atrData = [0] *1000
+        self.ventData = [0] *1000
 
         self.atrFrame = tk.LabelFrame(self, text='Atrium', bg='white', width=200, height=100)
         self.ventFrame = tk.LabelFrame(self, text='Ventricle', bg='white', width=200, height=100)
@@ -41,17 +41,17 @@ class egramPage(tk.Frame):
         
         
         self.atrFig.suptitle("Atrium Electrocadiogram")
-        self.atrFig.supxlabel("Time(s)", y=0)
+        self.atrFig.supxlabel("Time(5 ms)", y=0)
         self.atrFig.supylabel("Voltage(mV)")
         self.ax = self.atrFig.add_subplot(111) 
         self.atrFig.subplots_adjust(bottom=0.25)
-        self.ax.set_xlim(0, 10)  ## 200 values stored, new value retrieved every 50 ms, 200*50mS=10s
+        self.ax.set_xlim(0, 10)  ## 2000 values stored, new value retrieved every 5 ms, 2000*5mS=10s
         self.ax.set_ylim(-0.5, 6)
         
 
         self.ventFig.tight_layout()
         self.ventFig.suptitle("Ventricle Electrocadiogram")
-        self.ventFig.supxlabel("Time(s)", y=0)
+        self.ventFig.supxlabel("Time(5 ms)", y=0)
         self.ventFig.supylabel("Voltage(mV)")
         self.vx = self.ventFig.add_subplot(111) 
         self.ventFig.subplots_adjust(bottom=0.25)
@@ -102,7 +102,7 @@ class egramPage(tk.Frame):
             a = self.user.serial.ser.read(5)
             atr = a[1]
             vent = a[2]
-            print("byte 2: ",a[1], "  byte 3:  ", a[2])
+            print(a)
 
         except:
             self.msg_label.config(text="Connection Failed", bg="red")
@@ -127,7 +127,7 @@ class egramPage(tk.Frame):
         self.atrCanvas.draw_idle()
         self.ventCanvas.draw_idle()
         if self.keepPlotting:
-            self.after(50, self.updatePlots)
+            self.after(5, self.updatePlots)
         else:
             return
         

@@ -130,7 +130,7 @@ class DashboardClass(tk.Frame):
             received = self.user.serial.ser.read(5)
 
             print(received)
-            for i in range(5):
+            for i in range(5):  # TODO restructure acknowledge checking to match restructured simulink -> packets send on pulse for better egram
                 print(received[i])
             if received[0]: # if packet recieved
                 print("acknowledged")
