@@ -45,8 +45,8 @@ class serialComm():
         binaryParams = bytearray(paramsList)
         # for param in paramsList:
         #     print(type(param), end=", ") 
-        # print(paramsList)
-        # print(binaryParams)
+        print(paramsList)
+        print(binaryParams)
     
         #binaryParams.append(checksum(binaryParams))
 
