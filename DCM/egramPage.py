@@ -28,8 +28,10 @@ class egramPage(tk.Frame):
         self.msg_label = tk.Label(self, text = "")
         self.msg_label.pack(side="top")
 
-        self.atrData = [0] *1000
-        self.ventData = [0] *1000
+        self.startTime = time.time_ns()/1000000
+        self.atrData = [0] *100
+        self.ventData = [0] *100
+        self.times = list(range(0, 10000, 100))
 
         self.atrFrame = tk.LabelFrame(self, text='Atrium', bg='white', width=200, height=100)
         self.ventFrame = tk.LabelFrame(self, text='Ventricle', bg='white', width=200, height=100)
@@ -41,9 +43,12 @@ class egramPage(tk.Frame):
         
         
         self.atrFig.suptitle("Atrium Electrocadiogram")
-        self.atrFig.supxlabel("Time(5 ms)", y=0)
+        self.atrFig.supxlabel("Time (ms)", y=0)
         self.atrFig.supylabel("Voltage(mV)")
         self.ax = self.atrFig.add_subplot(111) 
+        
+        self.ax.set
+
         self.atrFig.subplots_adjust(bottom=0.25)
         self.ax.set_xlim(0, 10)  ## 2000 values stored, new value retrieved every 5 ms, 2000*5mS=10s
         self.ax.set_ylim(-0.5, 6)
@@ -51,7 +56,7 @@ class egramPage(tk.Frame):
 
         self.ventFig.tight_layout()
         self.ventFig.suptitle("Ventricle Electrocadiogram")
-        self.ventFig.supxlabel("Time(5 ms)", y=0)
+        self.ventFig.supxlabel("Time (ms)", y=0)
         self.ventFig.supylabel("Voltage(mV)")
         self.vx = self.ventFig.add_subplot(111) 
         self.ventFig.subplots_adjust(bottom=0.25)
@@ -85,6 +90,10 @@ class egramPage(tk.Frame):
         self.ventFrame.pack(side="top")
 
     def startButtonFunc(self):
+        self.startTime = time.time_ns()/1000000
+        self.atrData = [0] *100
+        self.ventData = [0] *100
+        self.times = list(range(0, 10000, 100))
         self.keepPlotting =True
         self.updatePlots()
 
@@ -98,31 +107,34 @@ class egramPage(tk.Frame):
   
     def updatePlots(self):
 
-        try:
-            a = self.user.serial.ser.read(5)
-            atr = a[1]
-            vent = a[2]
-            print(a)
+        # try:
+        #     a = self.user.serial.ser.read(5)
+        #     atr = a[1]
+        #     vent = a[2]
+        #     print(a)
 
-        except:
-            self.msg_label.config(text="Connection Failed", bg="red")
-            return
+        # except:
+        #     self.msg_label.config(text="Connection Failed", bg="red")
+        #     return
         self.msg_label.config(text="Device connected", bg="light green")
-        # atr = 3*random.random()**2 
-        # vent = 3*random.random()**2 
+        atr = 3*random.random()**2 
+        vent = 3*random.random()**2 
 
         self.atrData.insert(0,atr)
         self.ventData.insert(0,vent)
+        self.times.insert(0,self.startTime - (time.time_ns()/1000000))  # reverse here to make the graph scroll the other way aand not have negative numbers
+
         self.ventData.pop()
         self.atrData.pop()
+        self.times.pop()
 
         # print(self.atrData)
         # print(self.ventData)
 
         self.ax.cla()
         self.vx.cla()
-        self.ax.plot(self.atrData, color="blue")
-        self.vx.plot(self.ventData, color="blue")
+        self.ax.plot(self.times, self.atrData, color="blue")
+        self.vx.plot(self.times, self.ventData, color="blue")
 
         self.atrCanvas.draw_idle()
         self.ventCanvas.draw_idle()

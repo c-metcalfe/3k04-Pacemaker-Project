@@ -92,7 +92,8 @@ class DashboardClass(tk.Frame):
 
     def attemptConnect(self): # TODO fix all connection status checks from is_open to 
         if self.user.serial_exists == True:
-            try:
+            try:  # could replace with if not self.user.serial.ser: 
+
                 temp = self.user.serial.read(0) # serial has been connected but has become disconnected
             except:
                 self.user.serial_exists = False
