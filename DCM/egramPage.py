@@ -139,11 +139,13 @@ class egramPage(tk.Frame):
         self.atrCanvas.draw_idle()
         self.ventCanvas.draw_idle()
 
-        
+        # call after or when detected
         if self.keepPlotting:
-            while self.user.serial.ser.in_waiting < 5:
-                pass
-            self.updatePlots()
+            startTime = time.time_ns()
+            while (time.time_ns()-startTime)<5*1000000
+                if self.user.serial.ser.in_waiting >= 5:
+                    break
+            self.updatePlots()        
         else:
             return
         
