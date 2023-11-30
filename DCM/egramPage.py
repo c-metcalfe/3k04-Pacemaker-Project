@@ -139,7 +139,6 @@ class egramPage(tk.Frame):
         self.atrCanvas.draw_idle()
         self.ventCanvas.draw_idle()
 
-        while 
         if self.keepPlotting:
             self.after(5, self.updatePlots)
         else:
