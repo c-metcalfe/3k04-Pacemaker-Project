@@ -158,15 +158,17 @@ class egramPage(tk.Frame):
         self.ventCanvas.draw_idle()
 
         # call after or when detected
-        if self.keepPlotting:
-            startTime = time.time()
-            while (time.time()-startTime)<0.015:
-                if self.user.serial.ser.in_waiting >= 5:
-                    break
-                time.sleep(0.005)
-            self.updatePlots()        
-        else:
-            return
+
+        self.after(5, self.updatePlots())
+        # if self.keepPlotting:
+        #     startTime = time.time()
+        #     while (time.time()-startTime)<0.015:
+        #         if self.user.serial.ser.in_waiting >= 5:
+        #             break
+        #         time.sleep(0.005)
+        #     self.updatePlots()        
+        # else:
+        #     return
         
   
     def changeView(self, view):
