@@ -107,15 +107,15 @@ class egramPage(tk.Frame):
   
     def updatePlots(self):
 
-        try:
-            a = self.user.serial.ser.read(5)
-            atr = a[1]
-            vent = a[2]
-            print(a)
+        #try:
+        a = self.user.serial.ser.read(5)
+        atr = a[1]
+        vent = a[2]
+        print(a)
 
-        except:
-            self.msg_label.config(text="Connection Failed", bg="red")
-            return
+        # except:
+        #     self.msg_label.config(text="Connection Failed", bg="red")
+        #     return
         self.msg_label.config(text="Device connected", bg="light green")
         # atr = 3*random.random()**2 
         # vent = 3*random.random()**2 
@@ -138,6 +138,8 @@ class egramPage(tk.Frame):
 
         self.atrCanvas.draw_idle()
         self.ventCanvas.draw_idle()
+
+        while 
         if self.keepPlotting:
             self.after(5, self.updatePlots)
         else:
