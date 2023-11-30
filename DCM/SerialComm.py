@@ -6,9 +6,9 @@ class serialComm():
     def __init__(self, user: User):
         self.ser = serial.Serial()
         self.user = user
-        self.ser.port = "COM5"  # device specific
+        self.ser.port = "COM6"  # device specific
         self.ser.bytesize = serial.EIGHTBITS
-        self.ser.baudrate = 9600
+        self.ser.baudrate = 115200
         self.ser.parity = serial.PARITY_EVEN
         self.ser.stopbits = 1
         self.ser.timeout = 2
