@@ -163,6 +163,7 @@ class egramPage(tk.Frame):
             while (time.time()-startTime)<0.015:
                 if self.user.serial.ser.in_waiting >= 5:
                     break
+                time.sleep(0.005)
             self.updatePlots()        
         else:
             return
