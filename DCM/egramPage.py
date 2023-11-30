@@ -169,7 +169,7 @@ class egramPage(tk.Frame):
 
         # # call after or when detected
 
-        self.after(5, self.updatePlots())
+        self.after(50, self.updatePlots())
 
         # if self.keepPlotting:
         #     startTime = time.time()
