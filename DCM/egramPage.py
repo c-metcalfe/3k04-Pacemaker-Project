@@ -159,12 +159,9 @@ class egramPage(tk.Frame):
 
         # call after or when detected
         if self.keepPlotting:
-            startTime = time.time()
-            flag =False
-            while not flag and (time.time()-startTime)<0.005:
-                if self.user.serial.ser.in_waiting >= 5:
-                    flag = True
-            self.updatePlots()        
+            
+            self.after(5,self.updatePlots())
+                  
         else:
             return
         
