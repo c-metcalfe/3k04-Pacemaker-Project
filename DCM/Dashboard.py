@@ -137,8 +137,8 @@ class DashboardClass(tk.Frame):
             print(received)
             for i in range(num_bytes):  # TODO restructure acknowledge checking to match restructured simulink -> packets send on pulse for better egram
                 print(received[i])
-            if received[0]: # if packet recieved
-                print("acknowledged")
+            # if received[0]: # if packet recieved
+            #     print("acknowledged")
         else:
             self.serialMsgBox.config(text="Connect a device first to transmit data")
             return

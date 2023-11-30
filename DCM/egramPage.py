@@ -31,10 +31,8 @@ class egramPage(tk.Frame):
         self.startTime = time.time_ns()/1000000
         self.atrData = [0] *100
         self.ventData = [0] *100
-
-        self.atrDataNat = [0] *100
-        self.ventDataNat = [0] *100
-
+        self.atrDataN = [0] *100
+        self.ventDataN = [0] *100
 
         self.times = list(range(0, 10000, 100))
 
@@ -52,9 +50,10 @@ class egramPage(tk.Frame):
         self.atrFig.supylabel("Voltage(mV)")
         self.ax = self.atrFig.add_subplot(111) 
         
+        self.ax.set
 
         self.atrFig.subplots_adjust(bottom=0.25)
-        self.ax.set_xlim(0, 10)  
+        self.ax.set_xlim(0, 10)  ## 2000 values stored, new value retrieved every 5 ms, 2000*5mS=10s
         self.ax.set_ylim(-0.5, 6)
         
 
@@ -97,68 +96,56 @@ class egramPage(tk.Frame):
         self.startTime = time.time_ns()/1000000
         self.atrData = [0] *100
         self.ventData = [0] *100
-        self.atrDataNat = [0] *100
-        self.ventDataNat = [0] *100
-        self.times = list(range(0, 10000, 100))
+        self.atrDataN = [0] *100
+        self.ventDataN = [0] *100
+
+        self.times = (list(range(0, -10000, -100)))
         self.keepPlotting =True
-        try:
-            self.user.serial.ser.reset_input_buffer()
-        except:
-            self.msg_label.config(text="Device disconnected", bg="red")
-        self.plotLoop()
+        self.user.serial.ser.reset_input_buffer()
+        self.updatePlots()
 
     def stopPlotting(self):
         self.keepPlotting=False
-        return
 
     def backBtnFunc(self):
         self.keepPlotting=False
         self.controller.show_dashboard()
 
   
-    def plotLoop(self):
-        while self.keepPlotting:
-            self.updatePlots()
-            time.sleep(0.05)
-        return
-
     def updatePlots(self):
 
-        
-
-        numBytes = self.user.serial.ser.in_waiting
-        if numBytes >= 5:
+        #try:
+        if self.user.serial.ser.in_waiting >= 5:
             a = self.user.serial.ser.read(5)
-            print(a)
-            atrNat = a[0]
+            atrN = a[0]
             atr = a[1]
-            ventNat = a[2]
+            ventN = a[2]
             vent = a[3]
+            print(a)
         else:
-            atrNat = 0
             atr = 0
-            ventNat = 0
             vent = 0
-        
-  
-        #self.msg_label.config(text="Device connected", bg="light green")
+            atrN = 0
+            ventN = 0
+
+
+        # except:
+        #     self.msg_label.config(text="Connection Failed", bg="red")
+        #     return
+        self.msg_label.config(text="Device connected", bg="light green")
         # atr = 3*random.random()**2 
         # vent = 3*random.random()**2 
-        # atrNat = 3*random.random()**2 
-        # ventNat = 3*random.random()**2 
 
         self.atrData.insert(0,atr)
         self.ventData.insert(0,vent)
-        self.atrDataNat.insert(0,atrNat)
-        self.ventDataNat.insert(0,ventNat)
-
-
-        self.times.insert(0,(time.time_ns()/1000000)-self.startTime)  # reverse here to make the graph scroll the other way aand not have negative numbers
+        self.atrDataN.insert(0,atrN)
+        self.ventDataN.insert(0,ventN)
+        self.times.insert(0, (time.time_ns()/1000000)-self.startTime)  # reverse here to make the graph scroll the other way aand not have negative numbers
 
         self.ventData.pop()
         self.atrData.pop()
-        self.ventDataNat.pop()
-        self.atrDataNat.pop()
+        self.ventDataN.pop()
+        self.atrDataN.pop()
         self.times.pop()
 
         # print(self.atrData)
@@ -166,29 +153,28 @@ class egramPage(tk.Frame):
 
         self.ax.cla()
         self.vx.cla()
-
         self.ax.plot(self.times, self.atrData, color="blue")
-        #self.ax.plot(self.times, self.atrDataNat, color="red")
+        self.ax.plot(self.times, self.atrDataN, color="red")
 
         self.vx.plot(self.times, self.ventData, color="blue")
-        #self.vx.plot(self.times, self.ventDataNat, color="red")
+        self.vx.plot(self.times, self.ventDataN, color="red")
 
         self.atrCanvas.draw_idle()
         self.ventCanvas.draw_idle()
 
-        # # call after or when detected
+        
+        if self.keepPlotting:
+            # for i in range (3):
+            #     time.sleep(0.005)
+            #     if self.user.serial.ser.in_waiting >= 5: # if new data
+            #         print("here")
+            #         self.after(5, self.updatePlots)
+            self.user.serial.ser.reset_input_buffer()
+            self.after(15, self.updatePlots)
 
-        return
-
-        # if self.keepPlotting:
-        #     startTime = time.time()
-        #     while (time.time()-startTime)<0.015:
-        #         if self.user.serial.ser.in_waiting >= 5:
-        #             break
-        #         time.sleep(0.005)
-        #     self.updatePlots()        
-        # else:
-        #     return
+            
+        else:
+            return
         
   
     def changeView(self, view):
