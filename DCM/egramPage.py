@@ -19,7 +19,7 @@ class egramPage(tk.Frame):
         backBtn.pack(side="top", anchor="nw")
         btnBox = tk.Frame(self)
         startBtn = tk.Button(btnBox, text="Start plotting", command =lambda: self.startButtonFunc())
-        stopBtn = tk.Button(btnBox, text="Stop plotting", command =lambda: self.stopPlotting())
+        stopBtn = tk.Button(btnBox, text="Stop plotting", command =lambda: self.plotLoop())
         startBtn.pack(side="left")
         stopBtn.pack(side="right")
         btnBox.pack(side="top")
@@ -115,6 +115,12 @@ class egramPage(tk.Frame):
         self.controller.show_dashboard()
 
   
+    def plotLoop(self):
+        while self.keepPlotting:
+            self.updatePlots()
+            time.sleep(0.05)
+        return
+
     def updatePlots(self):
 
         
@@ -171,7 +177,7 @@ class egramPage(tk.Frame):
 
         # # call after or when detected
 
-        self.after(50, self.updatePlots())
+        return
 
         # if self.keepPlotting:
         #     startTime = time.time()
