@@ -141,7 +141,9 @@ class egramPage(tk.Frame):
 
         
         if self.keepPlotting:
-            self.after(5, self.updatePlots)
+            while self.user.serial.ser.in_waiting < 5:
+                pass
+            self.updatePlots()
         else:
             return
         
