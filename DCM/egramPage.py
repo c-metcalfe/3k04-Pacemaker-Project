@@ -117,7 +117,7 @@ class egramPage(tk.Frame):
   
     def updatePlots(self):
 
-        #try:
+        
 
         numBytes = self.user.serial.ser.in_waiting
         if numBytes >= 5:
@@ -137,6 +137,8 @@ class egramPage(tk.Frame):
         #self.msg_label.config(text="Device connected", bg="light green")
         # atr = 3*random.random()**2 
         # vent = 3*random.random()**2 
+        # atrNat = 3*random.random()**2 
+        # ventNat = 3*random.random()**2 
 
         self.atrData.insert(0,atr)
         self.ventData.insert(0,vent)
@@ -159,10 +161,10 @@ class egramPage(tk.Frame):
         self.vx.cla()
 
         self.ax.plot(self.times, self.atrData, color="blue")
-        self.ax.plot(self.times, self.atrDataNat, color="red")
+        #self.ax.plot(self.times, self.atrDataNat, color="red")
 
         self.vx.plot(self.times, self.ventData, color="blue")
-        self.vx.plot(self.times, self.ventDataNat, color="red")
+        #self.vx.plot(self.times, self.ventDataNat, color="red")
 
         self.atrCanvas.draw_idle()
         self.ventCanvas.draw_idle()
