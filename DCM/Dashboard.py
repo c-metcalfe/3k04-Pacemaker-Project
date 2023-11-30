@@ -131,10 +131,11 @@ class DashboardClass(tk.Frame):
                 return
             
             time.sleep(0.2)
-            received = self.user.serial.ser.read(5) # error here?
+            num_bytes = self.user.serial.ser.in_waiting
+            received = self.user.serial.ser.read(num_bytes) # error here?
 
             print(received)
-            for i in range(5):  # TODO restructure acknowledge checking to match restructured simulink -> packets send on pulse for better egram
+            for i in range(num_bytes):  # TODO restructure acknowledge checking to match restructured simulink -> packets send on pulse for better egram
                 print(received[i])
             if received[0]: # if packet recieved
                 print("acknowledged")

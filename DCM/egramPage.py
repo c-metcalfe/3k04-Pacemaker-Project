@@ -122,7 +122,7 @@ class egramPage(tk.Frame):
 
         self.atrData.insert(0,atr)
         self.ventData.insert(0,vent)
-        self.times.insert(0,self.startTime - (time.time_ns()/1000000))  # reverse here to make the graph scroll the other way aand not have negative numbers
+        self.times.insert(0,(time.time_ns()/1000000)-self.startTime)  # reverse here to make the graph scroll the other way aand not have negative numbers
 
         self.ventData.pop()
         self.atrData.pop()
@@ -139,8 +139,13 @@ class egramPage(tk.Frame):
         self.atrCanvas.draw_idle()
         self.ventCanvas.draw_idle()
 
+        # call after or when detected
         if self.keepPlotting:
-            self.after(5, self.updatePlots)
+            startTime = time.time_ns()
+            while (time.time_ns()-startTime)<5*1000000:
+                if self.user.serial.ser.in_waiting >= 5:
+                    break
+            self.updatePlots()        
         else:
             return
         

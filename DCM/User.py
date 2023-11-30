@@ -182,7 +182,7 @@ class UserClass:
             upperInt = int(upper)
         except:
             return False
-        if(upperInt>175 or upperInt <50 or upperInt<self.pacingRate):return False
+        if(upperInt>175 or upperInt <50 ):return False   #or upperInt<self.pacingRate  # removed because pacingRate not used in simulink
         if(upperInt%5 != 0): return False
         self.upperRateLimit= upperInt
         self.overwriteUserData()
@@ -194,7 +194,7 @@ class UserClass:
         except:
             return False
         if(lowerInt>175 or lowerInt <30):return False
-        if(lowerInt>self.pacingRate):return False
+        #if(lowerInt>self.pacingRate):return False
         if(lowerInt>self.upperRateLimit):return False
         if((lowerInt<=50 or lowerInt >=90) and lowerInt%5 != 0): return False
         self.lowerRateLimit= lowerInt
