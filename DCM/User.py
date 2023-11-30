@@ -194,7 +194,7 @@ class UserClass:
         except:
             return False
         if(lowerInt>175 or lowerInt <30):return False
-        if(lowerInt>self.pacingRate):return False
+        #if(lowerInt>self.pacingRate):return False
         if(lowerInt>self.upperRateLimit):return False
         if((lowerInt<=50 or lowerInt >=90) and lowerInt%5 != 0): return False
         self.lowerRateLimit= lowerInt
