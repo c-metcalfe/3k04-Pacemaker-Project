@@ -101,6 +101,10 @@ class egramPage(tk.Frame):
         self.ventDataNat = [0] *100
         self.times = list(range(0, 10000, 100))
         self.keepPlotting =True
+        try:
+            self.user.serial.ser.reset_input_buffer()
+        except:
+            self.msg_label.config(text="Device disconnected", bg="red")
         self.updatePlots()
 
     def stopPlotting(self):
@@ -129,14 +133,8 @@ class egramPage(tk.Frame):
             ventNat = 0
             vent = 0
         
-        
-
-        
-
-        # except:
-        #     self.msg_label.config(text="Connection Failed", bg="red")
-        #     return
-        self.msg_label.config(text="Device connected", bg="light green")
+  
+        #self.msg_label.config(text="Device connected", bg="light green")
         # atr = 3*random.random()**2 
         # vent = 3*random.random()**2 
 
@@ -159,8 +157,10 @@ class egramPage(tk.Frame):
 
         self.ax.cla()
         self.vx.cla()
+
         self.ax.plot(self.times, self.atrData, color="blue")
         self.ax.plot(self.times, self.atrDataNat, color="red")
+
         self.vx.plot(self.times, self.ventData, color="blue")
         self.vx.plot(self.times, self.ventDataNat, color="red")
 
@@ -169,7 +169,7 @@ class egramPage(tk.Frame):
 
         # # call after or when detected
 
-        self.after(5, self.updatePlots())
+        self.after(50, self.updatePlots())
 
         # if self.keepPlotting:
         #     startTime = time.time()
