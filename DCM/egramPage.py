@@ -31,6 +31,11 @@ class egramPage(tk.Frame):
         self.startTime = time.time_ns()/1000000
         self.atrData = [0] *100
         self.ventData = [0] *100
+
+        self.atrDataNat = [0] *100
+        self.ventDataNat = [0] *100
+
+
         self.times = list(range(0, 10000, 100))
 
         self.atrFrame = tk.LabelFrame(self, text='Atrium', bg='white', width=200, height=100)
@@ -47,10 +52,9 @@ class egramPage(tk.Frame):
         self.atrFig.supylabel("Voltage(mV)")
         self.ax = self.atrFig.add_subplot(111) 
         
-        self.ax.set
 
         self.atrFig.subplots_adjust(bottom=0.25)
-        self.ax.set_xlim(0, 10)  ## 2000 values stored, new value retrieved every 5 ms, 2000*5mS=10s
+        self.ax.set_xlim(0, 10)  
         self.ax.set_ylim(-0.5, 6)
         
 
@@ -93,6 +97,8 @@ class egramPage(tk.Frame):
         self.startTime = time.time_ns()/1000000
         self.atrData = [0] *100
         self.ventData = [0] *100
+        self.atrDataNat = [0] *100
+        self.ventDataNat = [0] *100
         self.times = list(range(0, 10000, 100))
         self.keepPlotting =True
         self.updatePlots()
@@ -109,8 +115,12 @@ class egramPage(tk.Frame):
 
         #try:
         a = self.user.serial.ser.read(5)
+        
+        atrNat = a[0]
         atr = a[1]
-        vent = a[2]
+        ventNat = a[2]
+        vent = a[3]
+
         print(a)
 
         # except:
@@ -122,10 +132,16 @@ class egramPage(tk.Frame):
 
         self.atrData.insert(0,atr)
         self.ventData.insert(0,vent)
+        self.atrDataNat.insert(0,atrNat)
+        self.ventDataNat.insert(0,ventNat)
+
+
         self.times.insert(0,(time.time_ns()/1000000)-self.startTime)  # reverse here to make the graph scroll the other way aand not have negative numbers
 
         self.ventData.pop()
         self.atrData.pop()
+        self.ventDataNat.pop()
+        self.atrDataNat.pop()
         self.times.pop()
 
         # print(self.atrData)
@@ -134,17 +150,20 @@ class egramPage(tk.Frame):
         self.ax.cla()
         self.vx.cla()
         self.ax.plot(self.times, self.atrData, color="blue")
+        self.ax.plot(self.times, self.atrDataNat, color="red")
         self.vx.plot(self.times, self.ventData, color="blue")
+        self.vx.plot(self.times, self.ventDataNat, color="red")
 
         self.atrCanvas.draw_idle()
         self.ventCanvas.draw_idle()
 
         # call after or when detected
         if self.keepPlotting:
-            startTime = time.time_ns()
-            while (time.time_ns()-startTime)<5*1000000:
+            startTime = time.time()
+            flag =False
+            while not flag and (time.time()-startTime)<0.005:
                 if self.user.serial.ser.in_waiting >= 5:
-                    break
+                    flag = True
             self.updatePlots()        
         else:
             return
