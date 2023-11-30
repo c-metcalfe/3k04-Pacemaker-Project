@@ -122,7 +122,7 @@ class egramPage(tk.Frame):
 
         self.atrData.insert(0,atr)
         self.ventData.insert(0,vent)
-        self.times.insert(0,self.startTime - (time.time_ns()/1000000))  # reverse here to make the graph scroll the other way aand not have negative numbers
+        self.times.insert(0,(time.time_ns()/1000000)-self.startTime)  # reverse here to make the graph scroll the other way aand not have negative numbers
 
         self.ventData.pop()
         self.atrData.pop()
