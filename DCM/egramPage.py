@@ -19,7 +19,7 @@ class egramPage(tk.Frame):
         backBtn.pack(side="top", anchor="nw")
         btnBox = tk.Frame(self)
         startBtn = tk.Button(btnBox, text="Start plotting", command =lambda: self.startButtonFunc())
-        stopBtn = tk.Button(btnBox, text="Stop plotting", command =lambda: self.plotLoop())
+        stopBtn = tk.Button(btnBox, text="Stop plotting", command =lambda: self.stopPlotting())
         startBtn.pack(side="left")
         stopBtn.pack(side="right")
         btnBox.pack(side="top")
@@ -105,10 +105,11 @@ class egramPage(tk.Frame):
             self.user.serial.ser.reset_input_buffer()
         except:
             self.msg_label.config(text="Device disconnected", bg="red")
-        self.updatePlots()
+        self.plotLoop()
 
     def stopPlotting(self):
         self.keepPlotting=False
+        return
 
     def backBtnFunc(self):
         self.keepPlotting=False
