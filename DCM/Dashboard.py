@@ -92,10 +92,15 @@ class DashboardClass(tk.Frame):
 
     def attemptConnect(self): # TODO fix all connection status checks from is_open to 
         if self.user.serial_exists == True:
-            try:  # could replace with if not self.user.serial.ser: 
+            # try:  # could replace with if not self.user.serial.ser: 
 
-                temp = self.user.serial.read(0) # serial has been connected but has become disconnected
-            except:
+            #     temp = self.user.serial.read(0) # serial has been connected but has become disconnected FLAG
+            # except:
+            #     self.user.serial_exists = False
+            #     self.connectionStatusLabel.config(bg="red", text= "Connection failed")
+            #     return
+            
+            if not self.user.serial.ser:
                 self.user.serial_exists = False
                 self.connectionStatusLabel.config(bg="red", text= "Connection failed")
                 return
@@ -117,18 +122,16 @@ class DashboardClass(tk.Frame):
 
         if self.user.serial_exists :
             try:
-                temp =self.user.serial.ser.read(5) # connection check: if the connection is lost this will throw an air
+                self.user.serial.send_packet()
+                print("sent packet")
 
             except: # connectio lost
                 self.user.serial_exists = False
                 self.attemptConnect() # updates the dashboard to communicate that connection has failed
                 return
             
-            self.user.serial.send_packet()
-            print("sent packet")
-            
             time.sleep(0.2)
-            received = self.user.serial.ser.read(5)
+            received = self.user.serial.ser.read(5) # error here?
 
             print(received)
             for i in range(5):  # TODO restructure acknowledge checking to match restructured simulink -> packets send on pulse for better egram
@@ -149,70 +152,87 @@ class DashboardClass(tk.Frame):
             self.emptyTable()
             if(self.user.mode == 0): # AOO
                 self.addModeToTable(0)
-                self.addPacingRateToTable(1)
-                self.addAtrialPWToTable(2)
-                self.addAtrialAmpToTable(3)
-                self.addURLToTable(4)
-                self.addLRLToTable(5)
+                #self.addPacingRateToTable(1)
+                self.addAtrialPWToTable(1)
+                self.addAtrialAmpToTable(2)
+                self.addURLToTable(3)
+                self.addLRLToTable(4)
 
                 self.load_user_info()
                 
 
             elif(self.user.mode == 1): #VOO
                 self.addModeToTable(0)
-                self.addPacingRateToTable(1)
-                self.addVentPWToTable(2)
-                self.addVentAmpToTable(3)
-                self.addURLToTable(4)
-                self.addLRLToTable(5)
+                #self.addPacingRateToTable(1)
+                self.addVentPWToTable(1)
+                self.addVentAmpToTable(2)
+                self.addURLToTable(3)
+                self.addLRLToTable(4)
 
                 self.load_user_info()
                 
 
             elif(self.user.mode == 2): #AAI
                 self.addModeToTable(0)
-                self.addPacingRateToTable(1)
-                self.addAtrialPWToTable(2)
-                self.addAtrialAmpToTable(3)
-                self.addURLToTable(4)
-                self.addLRLToTable(5)
-                self.addARPToTable(6)
+                #self.addPacingRateToTable(1)
+                self.addAtrialPWToTable(1)
+                self.addAtrialAmpToTable(2)
+                self.addURLToTable(3)
+                self.addLRLToTable(4)
+                self.addARPToTable(5)
 
                 self.load_user_info()
 
             elif(self.user.mode == 3): #VVI
                 self.addModeToTable(0)
-                self.addPacingRateToTable(1)
-                self.addVentPWToTable(2)
-                self.addVentAmpToTable(3)
-                self.addURLToTable(4)
-                self.addLRLToTable(5)
-                self.addVRPToTable(6)
+                #self.addPacingRateToTable(1)
+                self.addVentPWToTable(1)
+                self.addVentAmpToTable(2)
+                self.addURLToTable(3)
+                self.addLRLToTable(4)
+                self.addVRPToTable(5)
 
                 self.load_user_info()               
                                 
             elif(self.user.mode == 4): #AOOR
                 self.addModeToTable(0)
-                self.addPacingRateToTable(1)
-                self.addAtrialPWToTable(2)
-                self.addAtrialAmpToTable(3)
-                self.addURLToTable(4)
-                self.addLRLToTable(5)
-                self.addActivityThresholdToTable(6)
-                self.addReactionTimeToTable(7)
-                self.addResponseFactorToTable(8)
-                self.addRecoveryTimeToTable(9)
-                self.addMaxSenseRateToTable(10)
+                #self.addPacingRateToTable(1)
+                self.addAtrialPWToTable(1)
+                self.addAtrialAmpToTable(2)
+                self.addURLToTable(3)
+                self.addLRLToTable(4)
+                self.addActivityThresholdToTable(5)
+                self.addReactionTimeToTable(6)
+                self.addResponseFactorToTable(7)
+                self.addRecoveryTimeToTable(8)
+                self.addMaxSenseRateToTable(9)
 
                 self.load_user_info()
                 
             elif(self.user.mode == 5): #VOOR
                 self.addModeToTable(0)
-                self.addPacingRateToTable(1)
-                self.addVentPWToTable(2)
-                self.addVentAmpToTable(3)
-                self.addURLToTable(4)
-                self.addLRLToTable(5)
+                #self.addPacingRateToTable(1)
+                self.addVentPWToTable(1)
+                self.addVentAmpToTable(2)
+                self.addURLToTable(3)
+                self.addLRLToTable(4)
+                self.addActivityThresholdToTable(5)
+                self.addReactionTimeToTable(6)
+                self.addResponseFactorToTable(7)
+                self.addRecoveryTimeToTable(8)
+                self.addMaxSenseRateToTable(9)
+
+                self.load_user_info()
+        
+            elif(self.user.mode == 6): #AAIR
+                self.addModeToTable(0)
+                #self.addPacingRateToTable(1)
+                self.addAtrialPWToTable(1)
+                self.addAtrialAmpToTable(2)
+                self.addURLToTable(3)
+                self.addLRLToTable(4)
+                self.addARPToTable(5)
+
                 self.addActivityThresholdToTable(6)
                 self.addReactionTimeToTable(7)
                 self.addResponseFactorToTable(8)
@@ -221,37 +241,20 @@ class DashboardClass(tk.Frame):
 
                 self.load_user_info()
         
-            elif(self.user.mode == 6): #AAIR
-                self.addModeToTable(0)
-                self.addPacingRateToTable(1)
-                self.addAtrialPWToTable(2)
-                self.addAtrialAmpToTable(3)
-                self.addURLToTable(4)
-                self.addLRLToTable(5)
-                self.addARPToTable(6)
-
-                self.addActivityThresholdToTable(7)
-                self.addReactionTimeToTable(8)
-                self.addResponseFactorToTable(9)
-                self.addRecoveryTimeToTable(10)
-                self.addMaxSenseRateToTable(11)
-
-                self.load_user_info()
-        
             elif(self.user.mode == 7): #VVIR
                 self.addModeToTable(0)
-                self.addPacingRateToTable(1)
-                self.addVentPWToTable(2)
-                self.addVentAmpToTable(3)
-                self.addURLToTable(4)
-                self.addLRLToTable(5)
-                self.addVRPToTable(6)
+                #self.addPacingRateToTable(1)
+                self.addVentPWToTable(1)
+                self.addVentAmpToTable(2)
+                self.addURLToTable(3)
+                self.addLRLToTable(4)
+                self.addVRPToTable(5)
 
-                self.addActivityThresholdToTable(7)
-                self.addReactionTimeToTable(8)
-                self.addResponseFactorToTable(9)
-                self.addRecoveryTimeToTable(10)
-                self.addMaxSenseRateToTable(11)
+                self.addActivityThresholdToTable(6)
+                self.addReactionTimeToTable(7)
+                self.addResponseFactorToTable(8)
+                self.addRecoveryTimeToTable(9)
+                self.addMaxSenseRateToTable(10)
 
                 self.load_user_info()
 
