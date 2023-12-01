@@ -20,8 +20,10 @@ class egramPage(tk.Frame):
         btnBox = tk.Frame(self)
         startBtn = tk.Button(btnBox, text="Start plotting", command =lambda: self.startButtonFunc())
         stopBtn = tk.Button(btnBox, text="Stop plotting", command =lambda: self.stopPlotting())
-        startBtn.pack(side="left")
-        stopBtn.pack(side="right")
+        startBtn.pack(side="top")
+        stopBtn.pack(side="top")
+        legendLabel = tk.Label(btnBox, text = "red: Natural Paces   blue: Delivered Paces")
+        legendLabel.pack(side="top")
         btnBox.pack(side="top")
 
 
@@ -45,9 +47,9 @@ class egramPage(tk.Frame):
         self.ventFig = Figure(figsize=(6,3))
         
         
-        self.atrFig.suptitle("Atrium Electrocadiogram")
+        self.atrFig.suptitle("Atrium Electrogram")
         self.atrFig.supxlabel("Time (ms)", y=0)
-        self.atrFig.supylabel("Voltage(mV)")
+        self.atrFig.supylabel("Voltage")
         self.ax = self.atrFig.add_subplot(111) 
         
         self.ax.set
@@ -58,9 +60,9 @@ class egramPage(tk.Frame):
         
 
         self.ventFig.tight_layout()
-        self.ventFig.suptitle("Ventricle Electrocadiogram")
+        self.ventFig.suptitle("Ventricle Electrogram")
         self.ventFig.supxlabel("Time (ms)", y=0)
-        self.ventFig.supylabel("Voltage(mV)")
+        self.ventFig.supylabel("Voltage")
         self.vx = self.ventFig.add_subplot(111) 
         self.ventFig.subplots_adjust(bottom=0.25)
         self.vx.set_xlim(0, 10)

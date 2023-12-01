@@ -84,4 +84,5 @@ class GUI(tk.Tk):
         dashboard = self.frames[DashboardClass]
         dashboard.emptyTable()
         dashboard.addModeToTable(0)
+        dashboard.changeParamMessageBox.config(text="")
         dashboard.modeLabel.config(text="Choose a Pacing Mode")

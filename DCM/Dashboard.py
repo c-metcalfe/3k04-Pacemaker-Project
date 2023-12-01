@@ -32,7 +32,7 @@ class DashboardClass(tk.Frame):
         self.serialMsgBox.pack(side="top")
 
         sendToPacemakerBtn.pack(side="top", pady=10)
-        go_to_graph_button = tk.Button(self.serialControlFrame, text="View Electrocardiogram Data", command = lambda: self.graphbuttoncommand())
+        go_to_graph_button = tk.Button(self.serialControlFrame, text="View Electrogram Data", command = lambda: self.graphbuttoncommand())
         go_to_graph_button.pack(side="top", anchor = "s", padx=10)
 
 
@@ -353,7 +353,7 @@ class DashboardClass(tk.Frame):
         URLLabel2 = tk.Label(self.parametersFrame,wraplength="400", justify="left",
                              text="Must be an interger in the range [50,175] that is divisible by 5 and greater than the current pacing rate")
         URLEntry = tk.Entry(self.parametersFrame)
-        changeURLBtn = tk.Button(self.parametersFrame, text="Change the URL(upper rate width)",
+        changeURLBtn = tk.Button(self.parametersFrame, text="Change the URL (upper rate limit)",
                                     command=lambda: self.changeURL(URLEntry.get(), self.changeParamMessageBox))
         self.URLLabel.grid(row=row1,column=0)
         URLEntry.grid(row=row1, column=1)
