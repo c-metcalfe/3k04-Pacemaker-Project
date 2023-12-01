@@ -138,7 +138,7 @@ class UserClass:
         except:
             return False
         
-        if (widthInt<1 or widthInt>30):return False
+        if (widthInt<1 or widthInt>19):return False
         self.ventPulseWidth = widthInt
         self.overwriteUserData()
         return True
